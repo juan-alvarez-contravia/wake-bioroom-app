@@ -1,14 +1,21 @@
+import { useNavigate } from 'react-router-dom'
 import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
-import { ProgressBar } from '../components/UI'
+import { ProgressBar, BottomNav } from '../components/UI'
 
-export default function Home({ onNav }) {
+export default function Home() {
+  const navigate = useNavigate()
   const c = content.es.home
   const { getProgress } = useApp()
   const amSteps = content.es.routineAM.steps
   const pmSteps = content.es.routinePM.steps
   const amProg = getProgress(amSteps)
   const pmProg = getProgress(pmSteps)
+
+  const navGo = (id) => {
+    const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
+    navigate(map[id] || '/home')
+  }
 
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--bg)' }}>
@@ -26,7 +33,7 @@ export default function Home({ onNav }) {
       <div className="px-6 pt-6 space-y-3">
         {/* AM Card */}
         <button
-          onClick={() => onNav('am')}
+          onClick={() => navigate('/am')}
           className="w-full text-left p-5 transition-all duration-200 active:scale-[0.98]"
           style={{ background: 'var(--green)', color: '#F1F0EB' }}
         >
@@ -48,7 +55,7 @@ export default function Home({ onNav }) {
 
         {/* PM Card */}
         <button
-          onClick={() => onNav('pm')}
+          onClick={() => navigate('/pm')}
           className="w-full text-left p-5 transition-all duration-200 active:scale-[0.98]"
           style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
         >
@@ -71,7 +78,7 @@ export default function Home({ onNav }) {
         {/* Gadgets + Help row */}
         <div className="grid grid-cols-2 gap-3">
           <button
-            onClick={() => onNav('gadgets')}
+            onClick={() => navigate('/gadgets')}
             className="p-4 text-left transition-all duration-200 active:scale-[0.98]"
             style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
           >
@@ -80,7 +87,7 @@ export default function Home({ onNav }) {
             <div className="font-mono-dm text-[9px] tracking-wider uppercase" style={{ color: 'var(--muted)' }}>7 tecnologías</div>
           </button>
           <button
-            onClick={() => onNav('help')}
+            onClick={() => navigate('/ayuda')}
             className="p-4 text-left transition-all duration-200 active:scale-[0.98]"
             style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
           >
@@ -89,6 +96,15 @@ export default function Home({ onNav }) {
             <div className="font-mono-dm text-[9px] tracking-wider uppercase" style={{ color: 'var(--muted)' }}>Soporte 24/7</div>
           </button>
         </div>
+
+        {/* Language shortcut */}
+        <button
+          onClick={() => navigate('/idioma')}
+          className="w-full py-3 flex items-center justify-center gap-2 font-mono-dm text-[10px] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
+          style={{ color: 'var(--muted)', borderTop: '1px solid var(--border)' }}
+        >
+          🌐 Idioma / Language
+        </button>
 
         {/* Today's total progress */}
         <div className="pt-2 pb-2">
@@ -101,6 +117,8 @@ export default function Home({ onNav }) {
           />
         </div>
       </div>
+
+      <BottomNav active="home" onNav={navGo} />
     </div>
   )
 }

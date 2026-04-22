@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { content } from '../data/content'
 
-export default function Splash({ onDone }) {
+export default function Splash() {
   const [visible, setVisible] = useState(false)
+  const navigate = useNavigate()
   const c = content.es.splash
 
   useEffect(() => {
     setTimeout(() => setVisible(true), 100)
-    const t = setTimeout(onDone, 3200)
+    const t = setTimeout(() => navigate('/home'), 3200)
     return () => clearTimeout(t)
-  }, [onDone])
+  }, [navigate])
 
   return (
     <div
