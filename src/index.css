@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap');
+
+:root {
+  --bg:       #F1F0EB;
+  --surface:  #E8E7E1;
+  --card:     #E4E2DB;
+  --border:   #D0CEC6;
+  --muted:    #8C8980;
+  --green:    #616652;
+  --red:      #722F15;
+  --black:    #141414;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--black);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Lora', serif;
+}
+
+.font-lora { font-family: 'Lora', serif; }
+.font-mono-dm { font-family: 'DM Mono', monospace; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
