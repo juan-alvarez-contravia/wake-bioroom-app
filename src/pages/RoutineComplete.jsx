@@ -1,11 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
-import { BtnPrimary, BtnSecondary, ProgressBar, SectionLabel } from '../components/UI'
+import { BtnPrimary, BtnSecondary, ProgressBar, SectionLabel, BottomNav } from '../components/UI'
 
 export default function RoutineComplete({ routine }) {
   const navigate = useNavigate()
   const { getProgress, resetRoutine, isCompleted } = useApp()
+
+  const navGo = (id) => {
+    const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
+    navigate(map[id] || '/home')
+  }
   const routineData = routine === 'am' ? content.es.routineAM : content.es.routinePM
   const { completed, steps } = routineData
   const prog = getProgress(steps)
@@ -16,7 +21,7 @@ export default function RoutineComplete({ routine }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col px-6 pt-16 pb-12" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen flex flex-col px-6 pt-16 pb-28" style={{ background: 'var(--bg)' }}>
       {/* Celebration block */}
       <div className="flex-1 flex flex-col items-center justify-center text-center">
         <div className="text-5xl mb-6">{routine === 'am' ? '☀️' : '🌙'}</div>
@@ -100,6 +105,8 @@ export default function RoutineComplete({ routine }) {
           Reiniciar rutina
         </button>
       </div>
+
+      <BottomNav active={routine} onNav={navGo} />
     </div>
   )
 }

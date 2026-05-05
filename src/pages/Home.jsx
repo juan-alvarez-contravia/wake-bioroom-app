@@ -2,10 +2,29 @@ import { useNavigate } from 'react-router-dom'
 import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
 import { ProgressBar, BottomNav } from '../components/UI'
+import logoBio from '../assets/Logo-Bio-Negro.webp'
+import domSvg from '../assets/dom.svg'
+import lunaSvg from '../assets/luna.svg'
+import gbMat from '../assets/WB-mat.webp'
+import gbLuzBlanca from '../assets/WB-luz-blanca.webp'
+import gbAroma from '../assets/WB-aroma.webp'
+import gbGafas from '../assets/WB-gafas.webp'
+import gbLuzRoja from '../assets/WB-luz-roja.webp'
+import gbColchon from '../assets/WB-Colchon.webp'
+import gbHatch from '../assets/WB-hatch.webp'
+
+const GADGET_CARDS = [
+  { id: 'grounding-mat',   name: 'Grounding Mat',  img: gbMat },
+  { id: 'circadian-light', name: 'Luz Circadiana', img: gbLuzBlanca },
+  { id: 'diffuser',        name: 'Difusor',         img: gbAroma },
+  { id: 'smartgoggles',    name: 'SmartGoggles',    img: gbGafas },
+  { id: 'red-light',       name: 'Red Light',       img: gbLuzRoja },
+  { id: 'dockpro',         name: 'DockPro',         img: gbColchon },
+  { id: 'hatch',           name: 'Hatch Clock',     img: gbHatch },
+]
 
 export default function Home() {
   const navigate = useNavigate()
-  const c = content.es.home
   const { getProgress } = useApp()
   const amSteps = content.es.routineAM.steps
   const pmSteps = content.es.routinePM.steps
@@ -19,103 +38,183 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--bg)' }}>
-      {/* Header */}
-      <div className="px-6 pt-14 pb-8" style={{ borderBottom: '1px solid var(--border)' }}>
-        <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-3" style={{ color: 'var(--red)' }}>
-          Wake BioHotel · BioRoom
-        </div>
-        <h1 className="font-lora text-3xl font-bold leading-tight mb-2" style={{ color: 'var(--black)' }}>
-          {c.title}
-        </h1>
-        <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>{c.subtitle}</p>
+      {/* Logo header */}
+      <div
+        className="flex items-center justify-center py-5"
+        style={{ borderBottom: '1px solid var(--border)' }}
+      >
+        <img
+          src={logoBio}
+          alt="Wake BioHotel"
+          style={{ height: '38px', width: 'auto', objectFit: 'contain' }}
+        />
       </div>
 
-      <div className="px-6 pt-6 space-y-3">
-        {/* AM Card */}
-        <button
-          onClick={() => navigate('/am')}
-          className="w-full text-left p-5 transition-all duration-200 active:scale-[0.98]"
-          style={{ background: 'var(--green)', color: '#F1F0EB' }}
+      {/* Hero */}
+      <div className="pt-8 pb-6" style={{ paddingLeft: '40px', paddingRight: '40px', borderBottom: '1px solid var(--border)' }}>
+        <h1
+          className="font-lora text-3xl leading-tight mb-2"
+          style={{ color: 'var(--black)', fontWeight: 400 }}
         >
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <div className="font-mono-dm text-[9px] tracking-widest uppercase mb-2 opacity-70">
-                Módulo A
-              </div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl">☀️</span>
-                <h2 className="font-lora text-xl font-bold">Rutina de Mañana</h2>
-              </div>
-              <p className="font-sans text-xs opacity-70 mt-1">⏱ 45–60 min · 6am–9am</p>
-            </div>
-            <span className="text-2xl opacity-50">→</span>
-          </div>
-          <ProgressBar done={amProg.done} total={amProg.total} />
-        </button>
-
-        {/* PM Card */}
-        <button
-          onClick={() => navigate('/pm')}
-          className="w-full text-left p-5 transition-all duration-200 active:scale-[0.98]"
-          style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+          Tu rutina de bienestar comienza aquí
+        </h1>
+        <p
+          className="text-sm"
+          style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: 'var(--muted)' }}
         >
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <div className="font-mono-dm text-[9px] tracking-widest uppercase mb-2" style={{ color: 'var(--muted)' }}>
-                Módulo B
-              </div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl">🌙</span>
-                <h2 className="font-lora text-xl font-bold" style={{ color: 'var(--black)' }}>Rutina de Noche</h2>
-              </div>
-              <p className="font-sans text-xs mt-1" style={{ color: 'var(--muted)' }}>⏱ 60–90 min · 5pm–9pm</p>
-            </div>
-            <span className="text-2xl" style={{ color: 'var(--border)' }}>→</span>
-          </div>
-          <ProgressBar done={pmProg.done} total={pmProg.total} />
-        </button>
+          Elige el momento del día para comenzar
+        </p>
+      </div>
 
-        {/* Gadgets + Help row */}
+      {/* Main content */}
+      <div className="pt-6 space-y-6" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
+
+        {/* AM + PM two-column */}
         <div className="grid grid-cols-2 gap-3">
+          {/* AM */}
           <button
-            onClick={() => navigate('/gadgets')}
-            className="p-4 text-left transition-all duration-200 active:scale-[0.98]"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+            onClick={() => navigate('/am')}
+            className="text-left p-4 flex flex-col justify-between transition-all duration-200 active:scale-[0.97]"
+            style={{ background: 'var(--green)', minHeight: '190px' }}
           >
-            <div className="text-xl mb-2">🔬</div>
-            <div className="font-lora text-sm font-semibold mb-1" style={{ color: 'var(--black)' }}>Mis Gadgets</div>
-            <div className="font-mono-dm text-[9px] tracking-wider uppercase" style={{ color: 'var(--muted)' }}>7 tecnologías</div>
+            <div>
+              <img
+                src={domSvg}
+                alt="Mañana"
+                style={{
+                  width: '28px',
+                  height: '28px',
+                  filter: 'brightness(0) invert(1)',
+                  opacity: 0.85,
+                  marginBottom: '14px',
+                }}
+              />
+              <div
+                className="font-lora text-base leading-snug"
+                style={{ color: '#F1F0EB', fontWeight: 600, marginBottom: '4px' }}
+              >
+                Rutina de la Mañana
+              </div>
+              <div
+                className="font-mono-dm text-[9px] tracking-wider uppercase"
+                style={{ color: 'rgba(241,240,235,0.55)' }}
+              >
+                5 pasos · 45–60 min
+              </div>
+            </div>
+            <div className="mt-4">
+              <ProgressBar done={amProg.done} total={amProg.total} light />
+            </div>
           </button>
+
+          {/* PM */}
           <button
-            onClick={() => navigate('/ayuda')}
-            className="p-4 text-left transition-all duration-200 active:scale-[0.98]"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+            onClick={() => navigate('/pm')}
+            className="text-left p-4 flex flex-col justify-between transition-all duration-200 active:scale-[0.97]"
+            style={{ background: 'var(--surface)', border: '1px solid var(--border)', minHeight: '190px' }}
           >
-            <div className="text-xl mb-2">❓</div>
-            <div className="font-lora text-sm font-semibold mb-1" style={{ color: 'var(--black)' }}>Ayuda</div>
-            <div className="font-mono-dm text-[9px] tracking-wider uppercase" style={{ color: 'var(--muted)' }}>Soporte 24/7</div>
+            <div>
+              <img
+                src={lunaSvg}
+                alt="Noche"
+                style={{
+                  width: '26px',
+                  height: '26px',
+                  opacity: 0.45,
+                  marginBottom: '14px',
+                }}
+              />
+              <div
+                className="font-lora text-base leading-snug"
+                style={{ color: 'var(--black)', fontWeight: 600, marginBottom: '4px' }}
+              >
+                Rutina de la Noche
+              </div>
+              <div
+                className="font-mono-dm text-[9px] tracking-wider uppercase"
+                style={{ color: 'var(--muted)' }}
+              >
+                7 pasos · 60–90 min
+              </div>
+            </div>
+            <div className="mt-4">
+              <ProgressBar done={pmProg.done} total={pmProg.total} />
+            </div>
           </button>
         </div>
 
-        {/* Language shortcut */}
-        <button
-          onClick={() => navigate('/idioma')}
-          className="w-full py-3 flex items-center justify-center gap-2 font-mono-dm text-[10px] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
-          style={{ color: 'var(--muted)', borderTop: '1px solid var(--border)' }}
-        >
-          🌐 Idioma / Language
-        </button>
+        {/* Gadgets carousel */}
+        <div>
+          <div
+            className="font-mono-dm text-[10px] tracking-widest uppercase mb-3"
+            style={{ color: 'var(--muted)' }}
+          >
+            Gadgets de la BioRoom
+          </div>
+          <div
+            className="flex gap-3 pb-1"
+            style={{
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+            }}
+          >
+            {GADGET_CARDS.map(g => (
+              <button
+                key={g.id}
+                onClick={() => navigate(`/gadgets/${g.id}`)}
+                className="shrink-0 flex flex-col overflow-hidden transition-all duration-200 active:scale-[0.97]"
+                style={{
+                  width: '120px',
+                  scrollSnapAlign: 'start',
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)',
+                }}
+              >
+                <div style={{ height: '96px', overflow: 'hidden' }}>
+                  <img
+                    src={g.img}
+                    alt={g.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                </div>
+                <div className="px-2 py-2">
+                  <div
+                    className="font-mono-dm text-[9px] tracking-wide uppercase leading-tight"
+                    style={{ color: 'var(--black)' }}
+                  >
+                    {g.name}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
 
-        {/* Today's total progress */}
-        <div className="pt-2 pb-2">
-          <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-3" style={{ color: 'var(--muted)' }}>
-            Progreso total del día
+        {/* Total progress */}
+        <div className="pt-1 pb-1">
+          <div
+            className="font-mono-dm text-[10px] tracking-widest uppercase mb-3"
+            style={{ color: 'var(--muted)' }}
+          >
+            Actividades de bienestar realizadas
           </div>
           <ProgressBar
             done={amProg.done + pmProg.done}
             total={amProg.total + pmProg.total}
           />
         </div>
+
+        {/* Help link */}
+        <button
+          onClick={() => navigate('/ayuda')}
+          className="w-full py-3 flex items-center justify-center font-mono-dm text-[10px] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
+          style={{ color: 'var(--muted)', borderTop: '1px solid var(--border)' }}
+        >
+          ¿Necesitas ayuda?
+        </button>
       </div>
 
       <BottomNav active="home" onNav={navGo} />

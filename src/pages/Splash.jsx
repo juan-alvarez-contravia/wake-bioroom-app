@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { content } from '../data/content'
-import logoBio from '../assets/Logo-bio-blanco.webp'
+import logoBio from '../assets/Logo-Bio-Negro.webp'
 
 export default function Splash() {
   const [visible, setVisible] = useState(false)
@@ -28,7 +28,7 @@ export default function Splash() {
   return (
     <motion.div
       className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden"
-      style={{ background: '#0d0d0d' }}
+      style={{ background: '#fff' }}
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.48, ease: 'easeInOut' }}
     >
@@ -112,7 +112,7 @@ export default function Splash() {
             fontWeight: 400,
             fontSize: '1.875rem',
             lineHeight: 1.25,
-            color: '#F1F0EB',
+            color: '#000',
             textTransform: 'uppercase',
             letterSpacing: '0.03em',
             marginBottom: '1rem',
@@ -129,7 +129,7 @@ export default function Splash() {
             fontWeight: 300,
             fontSize: '0.875rem',
             lineHeight: 1.7,
-            color: '#ffffff',
+            color: '#000',
             opacity: 0.75,
             maxWidth: '17rem',
             marginBottom: '3rem',

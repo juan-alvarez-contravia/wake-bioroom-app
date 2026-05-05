@@ -1,20 +1,23 @@
 // ─── SHARED UI COMPONENTS ────────────────────────────────────────────────────
+import domSvg from '../assets/dom.svg'
+import lunaSvg from '../assets/luna.svg'
+import gafasImg from '../assets/WB-gafas.webp'
 
 // Progress Bar
-export function ProgressBar({ done, total, className = '' }) {
+export function ProgressBar({ done, total, className = '', light = false }) {
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
   return (
     <div className={`w-full ${className}`}>
       <div className="flex justify-between items-center mb-1">
-        <span className="font-mono-dm text-[10px] tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
+        <span className="font-mono-dm text-[10px] tracking-widest uppercase" style={{ color: light ? 'rgba(241,240,235,0.65)' : 'var(--muted)' }}>
           {done} / {total} pasos
         </span>
-        <span className="font-mono-dm text-[10px]" style={{ color: 'var(--green)' }}>{pct}%</span>
+        <span className="font-mono-dm text-[10px]" style={{ color: light ? 'rgba(241,240,235,0.9)' : 'var(--green)' }}>{pct}%</span>
       </div>
-      <div className="w-full h-[3px] rounded-full" style={{ background: 'var(--border)' }}>
+      <div className="w-full h-[3px] rounded-full" style={{ background: light ? 'rgba(241,240,235,0.25)' : 'var(--border)' }}>
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${pct}%`, background: 'var(--green)' }}
+          style={{ width: `${pct}%`, background: light ? 'rgba(241,240,235,0.85)' : 'var(--green)' }}
         />
       </div>
     </div>
@@ -185,28 +188,106 @@ export function StepHeader({ step, total, title, tag, icon }) {
 }
 
 // Nav Bar Bottom
+const NAV_ITEMS = [
+  {
+    id: 'home',
+    label: 'Inicio',
+    renderIcon: (isActive) => (
+      <span
+        className="text-lg leading-none"
+        style={{ color: isActive ? 'var(--green)' : 'var(--muted)' }}
+      >
+        ⌂
+      </span>
+    ),
+  },
+  {
+    id: 'am',
+    label: 'AM',
+    renderIcon: (isActive) => (
+      <img
+        src={domSvg}
+        alt="AM"
+        style={{
+          width: '18px',
+          height: '18px',
+          filter: isActive
+            ? 'invert(40%) sepia(14%) saturate(520%) hue-rotate(52deg) brightness(88%)'
+            : 'opacity(0.38)',
+        }}
+      />
+    ),
+  },
+  {
+    id: 'pm',
+    label: 'PM',
+    renderIcon: (isActive) => (
+      <img
+        src={lunaSvg}
+        alt="PM"
+        style={{
+          width: '18px',
+          height: '18px',
+          filter: isActive
+            ? 'invert(40%) sepia(14%) saturate(520%) hue-rotate(52deg) brightness(88%)'
+            : 'opacity(0.38)',
+        }}
+      />
+    ),
+  },
+  {
+    id: 'gadgets',
+    label: 'Gadgets',
+    renderIcon: (isActive) => (
+      <img
+        src={gafasImg}
+        alt="Gadgets"
+        style={{
+          width: '24px',
+          height: '16px',
+          objectFit: 'contain',
+          filter: isActive ? 'none' : 'grayscale(1) opacity(0.38)',
+        }}
+      />
+    ),
+  },
+  {
+    id: 'help',
+    label: 'Ayuda',
+    renderIcon: (isActive) => (
+      <span
+        className="leading-none font-lora"
+        style={{
+          fontSize: '20px',
+          fontWeight: 700,
+          color: isActive ? 'var(--green)' : 'var(--muted)',
+        }}
+      >
+        !
+      </span>
+    ),
+  },
+]
+
 export function BottomNav({ active, onNav }) {
-  const items = [
-    { id: 'home', icon: '⌂', label: 'Inicio' },
-    { id: 'am', icon: '☀️', label: 'AM' },
-    { id: 'pm', icon: '🌙', label: 'PM' },
-    { id: 'gadgets', icon: '🔬', label: 'Gadgets' },
-    { id: 'help', icon: '❓', label: 'Ayuda' },
-  ]
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 flex items-center z-50"
       style={{ background: '#F1F0EB', borderTop: '1px solid var(--border)' }}
     >
-      {items.map(item => (
+      {NAV_ITEMS.map(item => (
         <button
           key={item.id}
           onClick={() => onNav(item.id)}
-          className="flex-1 flex flex-col items-center py-3 gap-0.5 transition-all duration-200"
-          style={{ color: active === item.id ? 'var(--green)' : 'var(--muted)' }}
+          className="flex-1 flex flex-col items-center py-3 gap-1 transition-all duration-200"
         >
-          <span className="text-lg leading-none">{item.icon}</span>
-          <span className="font-mono-dm text-[9px] tracking-wider uppercase">{item.label}</span>
+          {item.renderIcon(active === item.id)}
+          <span
+            className="font-mono-dm text-[9px] tracking-wider uppercase"
+            style={{ color: active === item.id ? 'var(--green)' : 'var(--muted)' }}
+          >
+            {item.label}
+          </span>
         </button>
       ))}
     </nav>

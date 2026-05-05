@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
-import { BackBtn, BtnPrimary } from '../components/UI'
+import { BackBtn, BtnPrimary, BottomNav } from '../components/UI'
 
 const LANGUAGES = [
   { code: 'es', label: 'Español', flag: '🇨🇴' },
@@ -13,8 +13,13 @@ export default function Language() {
   const { lang, setLang } = useApp()
   const c = content.es.language
 
+  const navGo = (id) => {
+    const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
+    navigate(map[id] || '/home')
+  }
+
   return (
-    <div className="min-h-screen px-6 pt-12 pb-12" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen px-6 pt-12 pb-28" style={{ background: 'var(--bg)' }}>
       <BackBtn onClick={() => navigate('/home')} />
 
       <div className="mt-6 mb-8">
@@ -54,6 +59,8 @@ export default function Language() {
       <p className="font-sans text-xs mb-6" style={{ color: 'var(--muted)' }}>{c.tip}</p>
 
       <BtnPrimary onClick={() => navigate('/home')}>Confirmar</BtnPrimary>
+
+      <BottomNav active="home" onNav={navGo} />
     </div>
   )
 }

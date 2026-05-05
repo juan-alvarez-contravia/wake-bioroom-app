@@ -4,7 +4,7 @@ import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
 import {
   StepHeader, BackBtn, BenefitItem, CheckItem, WarningBox, TipBox,
-  BtnPrimary, BtnSecondary, BtnAppLink, SectionLabel, Tag,
+  BtnPrimary, BtnSecondary, BtnAppLink, SectionLabel, Tag, BottomNav,
 } from '../components/UI'
 
 export default function RoutineStep({ routine }) {
@@ -15,6 +15,11 @@ export default function RoutineStep({ routine }) {
   const steps = routine === 'am' ? content.es.routineAM.steps : content.es.routinePM.steps
   const stepIndex = parseInt(stepParam, 10) - 1
   const step = steps[stepIndex]
+
+  const navGo = (id) => {
+    const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
+    navigate(map[id] || '/home')
+  }
 
   const [checked, setChecked] = useState({})
   const toggleChecked = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }))
@@ -31,7 +36,7 @@ export default function RoutineStep({ routine }) {
   const goNext = () => isLast ? navigate(`/${routine}/completa`) : navigate(`/${routine}/paso/${stepIndex + 2}`)
 
   return (
-    <div className="min-h-screen pb-12" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen pb-28" style={{ background: 'var(--bg)' }}>
       {/* Header */}
       <div className="px-6 pt-12 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
         <BackBtn onClick={goBack} />
@@ -248,6 +253,8 @@ export default function RoutineStep({ routine }) {
           )}
         </div>
       </div>
+
+      <BottomNav active={routine} onNav={navGo} />
     </div>
   )
 }

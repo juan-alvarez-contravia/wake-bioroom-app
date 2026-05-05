@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { content } from '../data/content'
 import {
   BackBtn, SectionLabel, Tag, BenefitItem, CheckItem,
-  WarningBox, TipBox, BtnAppLink,
+  WarningBox, TipBox, BtnAppLink, BottomNav,
 } from '../components/UI'
 
 export default function GadgetDetail() {
@@ -13,13 +13,18 @@ export default function GadgetDetail() {
   const [checked, setChecked] = useState({})
   const toggleChecked = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }))
 
+  const navGo = (navId) => {
+    const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
+    navigate(map[navId] || '/home')
+  }
+
   if (!gadget) {
     navigate('/gadgets')
     return null
   }
 
   return (
-    <div className="min-h-screen pb-12" style={{ background: 'var(--bg)' }}>
+    <div className="min-h-screen pb-28" style={{ background: 'var(--bg)' }}>
       {/* Header */}
       <div className="px-6 pt-12 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
         <BackBtn onClick={() => navigate('/gadgets')} />
@@ -159,6 +164,8 @@ export default function GadgetDetail() {
           <BtnAppLink label={gadget.appLink.label} scheme={gadget.appLink.scheme} />
         )}
       </div>
+
+      <BottomNav active="gadgets" onNav={navGo} />
     </div>
   )
 }
