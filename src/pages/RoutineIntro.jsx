@@ -19,8 +19,12 @@ export default function RoutineIntro({ routine }) {
 
   return (
     <div className="min-h-screen pb-28" style={{ background: 'var(--bg)' }}>
+
       {/* Header */}
-      <div className="px-6 pt-12 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
+      <div
+        className="pt-12 pb-6"
+        style={{ paddingLeft: '40px', paddingRight: '40px', borderBottom: '1px solid var(--border)' }}
+      >
         <BackBtn onClick={() => navigate('/home')} />
         <div className="mt-6">
           <img
@@ -28,10 +32,16 @@ export default function RoutineIntro({ routine }) {
             alt={routine === 'am' ? 'Mañana' : 'Noche'}
             style={{ width: '30px', height: '30px', opacity: 0.55, marginBottom: '14px' }}
           />
-          <h1 className="font-lora text-3xl font-light leading-tight mb-2" style={{ color: 'var(--black)' }}>
+          <h1
+            className="font-lora text-3xl font-light leading-tight mb-2"
+            style={{ color: 'var(--black)' }}
+          >
             {intro.title}
           </h1>
-          <p className="text-xs tracking-wide mb-4" style={{ color: 'var(--muted)', fontFamily: "'Montserrat', sans-serif", fontWeight: 400 }}>
+          <p
+            className="text-xs tracking-wide mb-4"
+            style={{ color: 'var(--muted)', fontFamily: "'Montserrat', sans-serif", fontWeight: 400 }}
+          >
             {intro.subtitle}
           </p>
           <p className="font-sans text-sm leading-relaxed mb-5" style={{ color: 'var(--muted)' }}>
@@ -42,7 +52,7 @@ export default function RoutineIntro({ routine }) {
       </div>
 
       {/* Steps list */}
-      <div className="px-6 pt-6 space-y-2">
+      <div className="pt-6 space-y-2" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
         <SectionLabel>Empecemos con tu rutina</SectionLabel>
         {steps.map((step, i) => {
           const done = isCompleted(step.id)
@@ -68,21 +78,27 @@ export default function RoutineIntro({ routine }) {
                 {done ? '✓' : i + 1}
               </div>
               <div className="flex-1 min-w-0">
-                <span className="font-sans text-sm font-medium" style={{ color: 'var(--black)' }}>
+                <div
+                  className="font-lora font-light text-sm leading-snug mb-0.5"
+                  style={{ color: 'var(--black)' }}
+                >
                   {step.title}
-                </span>
-                <div className="text-[9px] tracking-wide mt-0.5 truncate" style={{ color: 'var(--muted)', fontFamily: "'Montserrat', sans-serif", fontWeight: 400 }}>
+                </div>
+                <div
+                  className="text-[9px] tracking-wide truncate"
+                  style={{ color: 'var(--muted)', fontFamily: "'Montserrat', sans-serif", fontWeight: 400 }}
+                >
                   {step.tag}
                 </div>
               </div>
-              <span style={{ color: 'var(--border)' }}>→</span>
+              <span style={{ color: 'var(--muted)' }}>→</span>
             </button>
           )
         })}
       </div>
 
       {/* CTA */}
-      <div className="px-6 pt-6 space-y-3">
+      <div className="pt-6 space-y-3" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
         <BtnPrimary onClick={() => navigate(`/${routine}/paso/1`)}>
           {prog.done === 0 ? intro.cta : 'Continuar Rutina'}
         </BtnPrimary>

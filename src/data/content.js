@@ -35,7 +35,7 @@ export const content = {
           id: "am-1",
           step: 1,
           title: "Panel de Luz Circadiana",
-          tag: "⏱ 10–30 min · En el baño",
+          tag: "10–30 min · En el baño",
           description: "Activa este panel mientras te preparas. La luz de espectro completo imita el sol de la mañana y sincroniza tu reloj biológico desde los primeros minutos del día.",
           benefits: [
             "Activa energía natural estimulando producción de cortisol",
@@ -57,7 +57,7 @@ export const content = {
           id: "am-2",
           step: 2,
           title: "Difusor de Aceites Esenciales",
-          tag: "⏱ 15–20 min · En la habitación",
+          tag: "15–20 min · En la habitación",
           description: "Activa el nebulizador mientras te preparas para el día. El aroma crea un ambiente de calma y claridad mental que complementa el efecto de la luz circadiana.",
           benefits: [
             "Induce claridad mental y estado de alerta tranquila",
@@ -81,7 +81,7 @@ export const content = {
           id: "am-3",
           step: 3,
           title: "Grounding Mat + Red Light Panel",
-          tag: "⏱ 20–30 min · En el piso o silla",
+          tag: "20–30 min · En el piso o silla",
           description: "Una combinación poderosa: el Grounding Mat trabaja desde abajo con calor infrarrojo y PEMF mientras el Red Light Panel estimula la regeneración celular. Puedes meditar, hacer respiración consciente o simplemente descansar.",
           benefits: [
             "Reduce inflamación y acelera recuperación muscular",
@@ -107,7 +107,7 @@ export const content = {
           id: "am-4",
           step: 4,
           title: "Therabody SmartGoggles",
-          tag: "⏱ 5–20 min · Sentado o acostado",
+          tag: "5–20 min · Sentado o acostado",
           description: "Usa las SmartGoggles para hacer la transición del modo alerta al modo foco. En la mañana recomendamos SmartRelax o Focus para preparar la mente para el día.",
           benefits: [
             "Reduce estrés y ansiedad de forma inmediata",
@@ -193,7 +193,7 @@ export const content = {
           id: "pm-1",
           step: 1,
           title: "Difusor de Aceites Esenciales",
-          tag: "⏱ 20–30 min · En la habitación",
+          tag: "20–30 min · En la habitación",
           description: "Activa el nebulizador al inicio de tu tarde para crear un ambiente olfativo que señaliza al sistema nervioso que es hora de descansar. Actúa como un ritual de transición entre el día activo y el sueño.",
           benefits: [
             "Induce relajación profunda del sistema nervioso",
@@ -215,7 +215,7 @@ export const content = {
           id: "pm-2",
           step: 2,
           title: "Therabody SmartGoggles",
-          tag: "⏱ 10–15 min · En la habitación · En la cama",
+          tag: "10–15 min · En la habitación · En la cama",
           description: "Usa el modo Sleep para modular el sistema nervioso autónomo y hacer la transición del modo alerta al modo calma de forma rápida y profunda.",
           benefits: [
             "Facilita conciliar el sueño sin esfuerzo",
@@ -242,7 +242,7 @@ export const content = {
           id: "pm-3",
           step: 3,
           title: "Grounding Mat + Red Light Panel",
-          tag: "⏱ 20–30 min · En la habitación",
+          tag: "20–30 min · En la habitación",
           description: "Antes de cenar o al volver al cuarto, usa esta combinación para liberar la tensión del día. El Red Light Panel estimula la recuperación celular nocturna y el Grounding Mat lleva al sistema nervioso al estado parasimpático ideal para dormir.",
           benefits: [
             "Acelera recuperación muscular nocturna",
@@ -270,7 +270,7 @@ export const content = {
           id: "pm-4",
           step: 4,
           title: "Amenities Nocturnos",
-          tag: "⏱ 30–50 min · Instalaciones · 5pm–8pm",
+          tag: "30–50 min · Instalaciones · 5pm–8pm",
           description: "Antes de cenar, vive el protocolo de contraste térmico del hotel. Esta secuencia activa el sistema nervioso, acelera la recuperación muscular y prepara el cuerpo para el descanso profundo de la noche.",
           amenities: [
             { name: "Cold Plunge", icon: "🧊", desc: "Inmersión en agua fría para activar el sistema nervioso y acelerar recuperación.", duration: "2–3 min" },
@@ -296,7 +296,7 @@ export const content = {
           id: "pm-6",
           step: 6,
           title: "DockPro Sleep System",
-          tag: "⏱ Activar 30 min antes de dormir · En la cama",
+          tag: "Activar 30 min antes de dormir · En la cama",
           description: "Configura el sistema de termorregulación de la cama para crear las condiciones perfectas de temperatura que optimizan tu sueño profundo NREM. Se controla desde la app Sleepme, ya instalada en tu tablet.",
           benefits: [
             "Optimiza sueño profundo NREM",
@@ -325,7 +325,7 @@ export const content = {
           id: "pm-7",
           step: 7,
           title: "Hatch Smart Clock",
-          tag: "⏱ Configurar 20–30 min antes de dormir",
+          tag: "Configurar 20–30 min antes de dormir",
           description: "Configura el Hatch para que acompañe tu transición al sueño y te despierte de forma natural al día siguiente, sin sobresaltos. Se controla desde la app Hatch Sleep, ya instalada en tu tablet.",
           benefits: [
             "Despertar gradual y sin sobresaltos ni estrés",
