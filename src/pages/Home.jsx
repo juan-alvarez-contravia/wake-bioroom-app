@@ -60,7 +60,7 @@ export default function Home() {
           className="font-lora text-3xl leading-tight mb-2"
           style={{ color: 'var(--black)', fontWeight: 400 }}
         >
-          Tu rutina de bienestar comienza aquí
+          TU RUTINA DE BIENESTAR EMPIEZA AQUÍ
         </h1>
         <p
           className="text-sm"
@@ -122,7 +122,7 @@ export default function Home() {
                 className="font-lora text-base leading-snug"
                 style={{ color: 'var(--black)', fontWeight: 400, marginBottom: '4px' }}
               >
-                Rutina de la Mañana
+                RUTINA DE LA MAÑANA
               </div>
               <div
                 className="font-mono-dm text-[9px] tracking-wider uppercase"
@@ -182,7 +182,7 @@ export default function Home() {
                 className="font-lora text-base leading-snug"
                 style={{ color: 'var(--black)', fontWeight: 400, marginBottom: '4px' }}
               >
-                Rutina de la Noche
+                RUTINA EN LA NOCHE
               </div>
               <div
                 className="font-mono-dm text-[9px] tracking-wider uppercase"
