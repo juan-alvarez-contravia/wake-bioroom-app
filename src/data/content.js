@@ -144,7 +144,7 @@ export const content = {
               duration: "2–3 min",
             },
             {
-              name: "Piscinas de Sales",
+              name: "Piscinas de Contrastes",
               icon: "♨️",
               desc: "Contraste térmico (fría y caliente) para mejorar circulación, reducir inflamación y relajar el cuerpo.",
               duration: "10–15 min",
@@ -270,7 +270,7 @@ export const content = {
           description: "Antes de cenar, vive el protocolo de contraste térmico del hotel. Esta secuencia activa el sistema nervioso, acelera la recuperación muscular y prepara el cuerpo para el descanso profundo de la noche.",
           amenities: [
             { name: "Cold Plunge", icon: "🧊", desc: "Inmersión en agua fría para activar el sistema nervioso y acelerar recuperación.", duration: "2–3 min" },
-            { name: "Piscinas de Sales", icon: "♨️", desc: "Contraste térmico (fría y caliente) para circulación y recuperación profunda.", duration: "10–15 min" },
+            { name: "Piscinas de Contrastes", icon: "♨️", desc: "Contraste térmico (fría y caliente) para circulación y recuperación profunda.", duration: "10–15 min" },
             { name: "Sauna Infrarrojo", icon: "🌡️", desc: "Desintoxicación profunda y relajación muscular.", duration: "15–20 min" },
             { name: "Piscina Climatizada", icon: "🏊", desc: "Disponible para huéspedes.", duration: "A tu ritmo" },
           ],

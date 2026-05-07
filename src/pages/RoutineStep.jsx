@@ -6,8 +6,19 @@ import {
   StepHeader, BenefitItem, CheckItem, WarningBox,
   BtnPrimary, BtnAppLink, SectionLabel, Tag, BottomNav,
 } from '../components/UI'
+import coldImg from '../assets/Cold.webp'
+import contrasteImg from '../assets/Contraste.webp'
+import saunaImg from '../assets/Suauna-Infrarojo.webp'
+import piscinaImg from '../assets/Piscina.webp'
 
 const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1778181612/VideoPanelLuz_iapxga.mov'
+
+const AMENITY_IMAGES = {
+  'Cold Plunge': coldImg,
+  'Piscinas de Contrastes': contrasteImg,
+  'Sauna Infrarrojo': saunaImg,
+  'Piscina Climatizada': piscinaImg,
+}
 
 export default function RoutineStep({ routine }) {
   const navigate = useNavigate()
@@ -205,9 +216,13 @@ export default function RoutineStep({ routine }) {
                   style={{ background: 'var(--surface)', border: '1px solid var(--border)', overflow: 'hidden' }}
                 >
                   {/* Imagen de la instalación */}
-                  <div style={{ width: '80px', minHeight: '80px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
-                    {a.image && (
-                      <img src={a.image} alt={a.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ width: '110px', minHeight: '110px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
+                    {(a.image || AMENITY_IMAGES[a.name]) && (
+                      <img
+                        src={a.image || AMENITY_IMAGES[a.name]}
+                        alt={a.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
                     )}
                   </div>
                   <div className="flex-1 py-3 pr-3">
@@ -231,7 +246,12 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Cómo usarlo — primero */}
+        {/* Deep link a app nativa — antes del checklist */}
+        {step.appLink && (
+          <BtnAppLink label={step.appLink.label} scheme={step.appLink.scheme} />
+        )}
+
+        {/* Cómo usarlo */}
         {step.steps && step.steps.length > 0 && (
           <div>
             <SectionLabel>Cómo usarlo</SectionLabel>
@@ -246,7 +266,7 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Beneficios — después */}
+        {/* Beneficios */}
         {step.benefits && step.benefits.length > 0 && (
           <div>
             <SectionLabel>Beneficios</SectionLabel>
@@ -256,11 +276,6 @@ export default function RoutineStep({ routine }) {
 
         {/* Advertencia */}
         {step.warning && <WarningBox>{step.warning}</WarningBox>}
-
-        {/* Deep link a app nativa */}
-        {step.appLink && (
-          <BtnAppLink label={step.appLink.label} scheme={step.appLink.scheme} />
-        )}
 
         {/* Acciones de navegación */}
         <div className="space-y-3 pb-6">
