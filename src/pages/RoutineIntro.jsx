@@ -79,7 +79,7 @@ export default function RoutineIntro({ routine }) {
               </div>
               <div className="flex-1 min-w-0">
                 <div
-                  className="font-lora font-light text-sm leading-snug mb-0.5"
+                  className="font-lora-subtitulo font-light text-sm leading-snug mb-0.5"
                   style={{ color: 'var(--black)' }}
                 >
                   {step.title}

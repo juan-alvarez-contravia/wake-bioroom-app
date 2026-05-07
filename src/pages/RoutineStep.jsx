@@ -3,9 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
 import {
-  StepHeader, BackBtn, BenefitItem, CheckItem, WarningBox, TipBox,
+  StepHeader, BenefitItem, CheckItem, WarningBox,
   BtnPrimary, BtnSecondary, BtnAppLink, SectionLabel, Tag, BottomNav,
 } from '../components/UI'
+
+const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1778181612/VideoPanelLuz_iapxga.mov'
 
 export default function RoutineStep({ routine }) {
   const navigate = useNavigate()
@@ -32,26 +34,60 @@ export default function RoutineStep({ routine }) {
   const done = isCompleted(step.id)
   const isFirst = stepIndex === 0
   const isLast = stepIndex === steps.length - 1
-  const goBack = () => isFirst ? navigate(`/${routine}`) : navigate(`/${routine}/paso/${stepIndex}`)
+  const goBack = () => navigate(`/${routine}/paso/${stepIndex}`)
   const goNext = () => isLast ? navigate(`/${routine}/completa`) : navigate(`/${routine}/paso/${stepIndex + 2}`)
 
   return (
     <div className="min-h-screen pb-28" style={{ background: 'var(--bg)' }}>
-      {/* Header */}
-      <div className="px-6 pt-12 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
-        <BackBtn onClick={goBack} />
+
+      {/* Navegación superior */}
+      <div className="pt-12 pb-6" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
+        <div className="flex items-center justify-between">
+          {!isFirst ? (
+            <button
+              onClick={goBack}
+              className="font-mono-dm text-[11px] tracking-widest uppercase py-2"
+              style={{ color: 'var(--muted)' }}
+            >
+              ← Paso anterior
+            </button>
+          ) : (
+            <div />
+          )}
+          <button
+            onClick={() => navigate(`/${routine}`)}
+            className="font-mono-dm text-[11px] tracking-widest uppercase py-2"
+            style={{ color: 'var(--muted)' }}
+          >
+            Ver todos los pasos →
+          </button>
+        </div>
         <div className="mt-4">
-          <StepHeader step={stepIndex + 1} total={steps.length} title={step.title} tag={step.tag} icon={step.icon} />
+          <StepHeader step={stepIndex + 1} total={steps.length} title={step.title} tag={step.tag} />
         </div>
       </div>
 
-      <div className="px-6 pt-6 space-y-6">
-        {/* Description */}
+      {/* Video */}
+      <div style={{ paddingLeft: '40px', paddingRight: '40px', marginBottom: '24px' }}>
+        <video
+          src={step.video || VIDEO_DEFAULT}
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{ width: '100%', display: 'block', aspectRatio: '16/9', background: 'var(--black)' }}
+        />
+      </div>
+
+      {/* Contenido del paso */}
+      <div className="space-y-6" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
+
+        {/* Descripción */}
         <p className="font-sans text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
           {step.description}
         </p>
 
-        {/* Pending note (e.g. SILO pm-5) */}
+        {/* Pending note (SILO pm-5) */}
         {step.pending && (
           <div
             className="px-4 py-3 text-sm leading-relaxed italic"
@@ -61,7 +97,7 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Modes (SmartGoggles) */}
+        {/* Modos disponibles (SmartGoggles) */}
         {step.modes && (
           <div>
             <SectionLabel>Modos disponibles</SectionLabel>
@@ -86,7 +122,7 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Temperature options (DockPro) */}
+        {/* Temperaturas (DockPro) */}
         {step.temperatures && (
           <div>
             <SectionLabel>Temperaturas</SectionLabel>
@@ -114,7 +150,7 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Phases (Hatch) */}
+        {/* Fases (Hatch) */}
         {step.phases && (
           <div>
             <SectionLabel>Fases de la noche</SectionLabel>
@@ -136,7 +172,7 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Options (pm-3: Grounding + Red Light variants) */}
+        {/* Opciones de uso (Grounding + Red Light) */}
         {step.options && (
           <div>
             <SectionLabel>Opciones de uso</SectionLabel>
@@ -157,7 +193,7 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Amenities */}
+        {/* Instalaciones (Amenities) */}
         {step.amenities && (
           <div>
             <SectionLabel>Instalaciones</SectionLabel>
@@ -179,19 +215,10 @@ export default function RoutineStep({ routine }) {
                 </div>
               ))}
             </div>
-            {step.protocol && <TipBox>{step.protocol}</TipBox>}
           </div>
         )}
 
-        {/* Benefits */}
-        {step.benefits && step.benefits.length > 0 && (
-          <div>
-            <SectionLabel>Beneficios</SectionLabel>
-            {step.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
-          </div>
-        )}
-
-        {/* Instruction steps checklist */}
+        {/* Cómo usarlo — primero */}
         {step.steps && step.steps.length > 0 && (
           <div>
             <SectionLabel>Cómo usarlo</SectionLabel>
@@ -206,22 +233,27 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Warning */}
+        {/* Beneficios — después */}
+        {step.benefits && step.benefits.length > 0 && (
+          <div>
+            <SectionLabel>Beneficios</SectionLabel>
+            {step.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
+          </div>
+        )}
+
+        {/* Advertencia */}
         {step.warning && <WarningBox>{step.warning}</WarningBox>}
 
-        {/* Tip */}
-        {step.tip && <TipBox>{step.tip}</TipBox>}
-
-        {/* App deep link */}
+        {/* Deep link a app nativa */}
         {step.appLink && (
           <BtnAppLink label={step.appLink.label} scheme={step.appLink.scheme} />
         )}
 
-        {/* Complete / navigation */}
+        {/* Acciones de navegación */}
         <div className="space-y-3 pb-6">
           {!done ? (
             <BtnPrimary onClick={() => { toggleStep(step.id); goNext() }}>
-              {isLast ? 'Completar Rutina ✓' : 'Completado · Siguiente →'}
+              {isLast ? 'Completar Rutina' : 'Completado · Siguiente →'}
             </BtnPrimary>
           ) : (
             <>

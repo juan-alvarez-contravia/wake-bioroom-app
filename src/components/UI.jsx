@@ -152,7 +152,7 @@ export function CheckItem({ text, checked, onToggle }) {
 export function BenefitItem({ text }) {
   return (
     <div className="flex items-start gap-3 py-2" style={{ borderBottom: '1px solid var(--border)' }}>
-      <div className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ background: 'var(--green)' }} />
+      <span className="flex-shrink-0 text-sm" style={{ color: 'var(--muted)', marginTop: '1px' }}>→</span>
       <span className="text-sm font-sans" style={{ color: 'var(--black)' }}>{text}</span>
     </div>
   )
@@ -172,16 +172,13 @@ export function BackBtn({ onClick }) {
 }
 
 // Step Header (for routine steps)
-export function StepHeader({ step, total, title, tag, icon }) {
+export function StepHeader({ step, total, title, tag }) {
   return (
-    <div className="mb-6">
+    <div className="mb-4">
       <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-3" style={{ color: 'var(--red)' }}>
         Paso {step} de {total}
       </div>
-      <div className="flex items-center gap-3 mb-2">
-        <span className="text-2xl">{icon}</span>
-        <h1 className="font-lora text-2xl font-bold leading-tight" style={{ color: 'var(--black)' }}>{title}</h1>
-      </div>
+      <h1 className="font-lora text-2xl font-light leading-tight mb-3" style={{ color: 'var(--black)' }}>{title}</h1>
       {tag && <Tag>{tag}</Tag>}
     </div>
   )

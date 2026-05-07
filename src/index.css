@@ -34,6 +34,10 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+.font-lora-subtitulo {
+  font-family: 'Lora', serif;
+  letter-spacing: 0.04em;
+}
 .font-mono-dm { font-family: 'Montserrat', sans-serif; font-weight: 500; }
 .font-montserrat { font-family: 'Montserrat', sans-serif; }
 
