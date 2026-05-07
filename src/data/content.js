@@ -25,8 +25,8 @@ export const content = {
     // ── MÓDULO A — RUTINA AM ────────────────────────────────────────────────
     routineAM: {
       intro: {
-        title: "Tu Rutina de Mañana ☀️",
-        subtitle: "⏱ 45–60 min · Recomendada entre 6am–9am",
+        title: "Tu Rutina de Mañana",
+        subtitle: "45–60 min · Recomendada entre 6am–9am",
         description: "Esta secuencia está diseñada para activar tu energía natural, sincronizar tu reloj biológico y preparar tu cuerpo y mente para el día. Sigue los pasos en orden para obtener el mayor beneficio.",
         cta: "Comenzar Rutina AM",
       },
@@ -172,7 +172,7 @@ export const content = {
         },
       ],
       completed: {
-        title: "¡Rutina AM completada! ☀️",
+        title: "Rutina AM completada",
         subtitle: "Comenzaste tu día con todo",
         description: "Has activado tu energía natural, sincronizado tu ritmo circadiano y preparado tu cuerpo para el día. Los efectos se acumulan con cada día de práctica.",
         tip: "Esta noche, activa tu Rutina PM para preparar el descanso más profundo.",
@@ -183,8 +183,8 @@ export const content = {
     // ── MÓDULO B — RUTINA PM ────────────────────────────────────────────────
     routinePM: {
       intro: {
-        title: "Tu Rutina de Noche 🌙",
-        subtitle: "⏱ 60–90 min · Recomendada entre 5pm–9pm",
+        title: "Tu Rutina de Noche",
+        subtitle: "60–90 min · Recomendada entre 5pm–9pm",
         description: "Esta secuencia está diseñada para desactivar el modo alerta, preparar tu sistema nervioso para el descanso y maximizar la calidad de tu sueño profundo. Empieza a desconectarte antes de lo que crees necesario.",
         cta: "Comenzar Rutina PM",
       },
@@ -352,7 +352,7 @@ export const content = {
         },
       ],
       completed: {
-        title: "¡Rutina PM completada! 🌙",
+        title: "Rutina PM completada",
         subtitle: "Tu cuerpo está listo para el descanso más profundo",
         description: "Has completado todos los pasos de tu rutina de noche. El sistema está configurado para optimizar tu sueño. Ahora solo relájate y deja que el BioRoom haga su trabajo.",
         tip: "Mañana, activa tu Rutina AM para comenzar el día con energía óptima y consolidar los beneficios de esta noche.",

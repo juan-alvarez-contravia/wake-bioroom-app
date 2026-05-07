@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
 import { BtnPrimary, BtnSecondary, ProgressBar, BackBtn, SectionLabel, BottomNav } from '../components/UI'
+import domSvg from '../assets/dom.svg'
+import lunaSvg from '../assets/luna.svg'
 
 export default function RoutineIntro({ routine }) {
   const navigate = useNavigate()
@@ -20,14 +22,16 @@ export default function RoutineIntro({ routine }) {
       {/* Header */}
       <div className="px-6 pt-12 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
         <BackBtn onClick={() => navigate('/home')} />
-        <div className="mt-4">
-          <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-2" style={{ color: 'var(--red)' }}>
-            {routine === 'am' ? 'Módulo A · Mañana' : 'Módulo B · Noche'}
-          </div>
-          <h1 className="font-lora text-3xl font-bold leading-tight mb-2" style={{ color: 'var(--black)' }}>
+        <div className="mt-6">
+          <img
+            src={routine === 'am' ? domSvg : lunaSvg}
+            alt={routine === 'am' ? 'Mañana' : 'Noche'}
+            style={{ width: '30px', height: '30px', opacity: 0.55, marginBottom: '14px' }}
+          />
+          <h1 className="font-lora text-3xl font-light leading-tight mb-2" style={{ color: 'var(--black)' }}>
             {intro.title}
           </h1>
-          <p className="font-mono-dm text-[11px] tracking-wide mb-4" style={{ color: 'var(--muted)' }}>
+          <p className="text-xs tracking-wide mb-4" style={{ color: 'var(--muted)', fontFamily: "'Montserrat', sans-serif", fontWeight: 400 }}>
             {intro.subtitle}
           </p>
           <p className="font-sans text-sm leading-relaxed mb-5" style={{ color: 'var(--muted)' }}>
@@ -39,7 +43,7 @@ export default function RoutineIntro({ routine }) {
 
       {/* Steps list */}
       <div className="px-6 pt-6 space-y-2">
-        <SectionLabel>Pasos de la rutina</SectionLabel>
+        <SectionLabel>Empecemos con tu rutina</SectionLabel>
         {steps.map((step, i) => {
           const done = isCompleted(step.id)
           return (
@@ -53,8 +57,10 @@ export default function RoutineIntro({ routine }) {
               }}
             >
               <div
-                className="w-8 h-8 rounded-sm flex items-center justify-center flex-shrink-0 font-mono-dm text-[11px]"
+                className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0 text-xs"
                 style={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontWeight: 600,
                   background: done ? 'var(--green)' : 'var(--card)',
                   color: done ? '#F1F0EB' : 'var(--muted)',
                 }}
@@ -62,13 +68,10 @@ export default function RoutineIntro({ routine }) {
                 {done ? '✓' : i + 1}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span>{step.icon}</span>
-                  <span className="font-sans text-sm font-medium" style={{ color: 'var(--black)' }}>
-                    {step.title}
-                  </span>
-                </div>
-                <div className="font-mono-dm text-[9px] tracking-wide mt-0.5 truncate" style={{ color: 'var(--muted)' }}>
+                <span className="font-sans text-sm font-medium" style={{ color: 'var(--black)' }}>
+                  {step.title}
+                </span>
+                <div className="text-[9px] tracking-wide mt-0.5 truncate" style={{ color: 'var(--muted)', fontFamily: "'Montserrat', sans-serif", fontWeight: 400 }}>
                   {step.tag}
                 </div>
               </div>

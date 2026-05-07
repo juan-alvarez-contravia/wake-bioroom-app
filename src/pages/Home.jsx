@@ -125,8 +125,8 @@ export default function Home() {
                 RUTINA DE LA MAÑANA
               </div>
               <div
-                className="font-mono-dm text-[9px] tracking-wider uppercase"
-                style={{ color: 'var(--muted)' }}
+                className="font-montserrat text-[9px] tracking-wider uppercase"
+                style={{ color: '#000' }}
               >
                 5 pasos · 45–60 min
               </div>
@@ -185,8 +185,8 @@ export default function Home() {
                 RUTINA EN LA NOCHE
               </div>
               <div
-                className="font-mono-dm text-[9px] tracking-wider uppercase"
-                style={{ color: 'var(--muted)' }}
+                className="font-montserrat text-[9px] tracking-wider uppercase"
+                style={{ color: '#000' }}
               >
                 7 pasos · 60–90 min
               </div>
@@ -200,7 +200,7 @@ export default function Home() {
         {/* Gadgets carousel */}
         <div>
           <div
-            className="font-mono-dm text-[10px] tracking-widest uppercase mb-3"
+            className="font-montserrat text-[10px] tracking-widest uppercase mb-3"
             style={{ color: 'var(--muted)' }}
           >
             Gadgets de la BioRoom
@@ -236,8 +236,8 @@ export default function Home() {
                 </div>
                 <div className="px-2 py-2">
                   <div
-                    className="font-mono-dm text-[9px] tracking-wide uppercase leading-tight"
-                    style={{ color: 'var(--black)' }}
+                    className="font-montserrat text-[9px] tracking-wide uppercase leading-tight"
+                    style={{ color: 'var(--black)', fontWeight:400 }}
                   >
                     {g.name}
                   </div>
@@ -250,8 +250,8 @@ export default function Home() {
         {/* Total progress */}
         <div className="pt-1 pb-1">
           <div
-            className="font-mono-dm text-[10px] tracking-widest uppercase mb-3"
-            style={{ color: 'var(--muted)' }}
+            className="font-montserrat text-[10px] tracking-widest uppercase mb-3"
+            style={{ color: '#000' }}
           >
             Actividades de bienestar realizadas
           </div>
