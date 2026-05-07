@@ -88,10 +88,9 @@ export function BtnAppLink({ label, scheme }) {
   return (
     <button
       onClick={handleOpen}
-      className="w-full py-4 flex items-center justify-center gap-2 font-sans text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95 border"
+      className="w-full py-4 flex items-center justify-center font-sans text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95 border"
       style={{ background: 'var(--black)', color: '#F1F0EB', borderColor: 'var(--black)' }}
     >
-      <span>📲</span>
       {label}
     </button>
   )

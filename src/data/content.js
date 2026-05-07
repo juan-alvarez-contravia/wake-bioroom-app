@@ -115,11 +115,7 @@ export const content = {
             "Sincroniza respiración y ritmo cardíaco",
             "Alivia tensión post-pantalla",
           ],
-          modes: [
-            { name: "Focus", desc: "Mejora concentración y claridad mental", recommended: true },
-            { name: "SmartRelax", desc: "Regula automáticamente según tu ritmo cardíaco", recommended: true },
-            { name: "Sleep", desc: "Vibración lenta para inducir el sueño (mejor en PM)", recommended: false },
-          ],
+          modes: null,
           steps: [
             "Retirar maquillaje o cremas del área de ojos",
             "Sentarse o acostarse en posición cómoda",

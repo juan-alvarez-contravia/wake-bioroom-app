@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { content } from '../data/content'
 import { useApp } from '../context/AppContext'
 import {
   StepHeader, BenefitItem, CheckItem, WarningBox,
-  BtnPrimary, BtnSecondary, BtnAppLink, SectionLabel, Tag, BottomNav,
+  BtnPrimary, BtnAppLink, SectionLabel, Tag, BottomNav,
 } from '../components/UI'
 
 const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1778181612/VideoPanelLuz_iapxga.mov'
@@ -24,6 +24,12 @@ export default function RoutineStep({ routine }) {
   }
 
   const [checked, setChecked] = useState({})
+
+  // Reset checklist cada vez que cambia el paso
+  useEffect(() => {
+    setChecked({})
+  }, [stepIndex])
+
   const toggleChecked = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }))
 
   if (!step) {
@@ -37,23 +43,17 @@ export default function RoutineStep({ routine }) {
   const goBack = () => navigate(`/${routine}/paso/${stepIndex}`)
   const goNext = () => isLast ? navigate(`/${routine}/completa`) : navigate(`/${routine}/paso/${stepIndex + 2}`)
 
+  const handleSiguiente = () => {
+    if (!done) toggleStep(step.id)
+    goNext()
+  }
+
   return (
     <div className="min-h-screen pb-28" style={{ background: 'var(--bg)' }}>
 
       {/* Navegación superior */}
       <div className="pt-12 pb-6" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
-        <div className="flex items-center justify-between">
-          {!isFirst ? (
-            <button
-              onClick={goBack}
-              className="font-mono-dm text-[11px] tracking-widest uppercase py-2"
-              style={{ color: 'var(--muted)' }}
-            >
-              ← Paso anterior
-            </button>
-          ) : (
-            <div />
-          )}
+        <div className="flex justify-end">
           <button
             onClick={() => navigate(`/${routine}`)}
             className="font-mono-dm text-[11px] tracking-widest uppercase py-2"
@@ -97,7 +97,7 @@ export default function RoutineStep({ routine }) {
           </div>
         )}
 
-        {/* Modos disponibles (SmartGoggles) */}
+        {/* Modos disponibles (SmartGoggles PM) */}
         {step.modes && (
           <div>
             <SectionLabel>Modos disponibles</SectionLabel>
@@ -201,20 +201,33 @@ export default function RoutineStep({ routine }) {
               {step.amenities.map(a => (
                 <div
                   key={a.name}
-                  className="p-3 flex items-start gap-3"
-                  style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+                  className="flex items-start gap-3"
+                  style={{ background: 'var(--surface)', border: '1px solid var(--border)', overflow: 'hidden' }}
                 >
-                  <span className="text-2xl">{a.icon}</span>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
+                  {/* Imagen de la instalación */}
+                  <div style={{ width: '80px', minHeight: '80px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
+                    {a.image && (
+                      <img src={a.image} alt={a.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    )}
+                  </div>
+                  <div className="flex-1 py-3 pr-3">
+                    <div className="flex items-center justify-between mb-1">
                       <span className="font-sans text-sm font-semibold" style={{ color: 'var(--black)' }}>{a.name}</span>
                       <span className="font-mono-dm text-[10px]" style={{ color: 'var(--muted)' }}>{a.duration}</span>
                     </div>
-                    <p className="font-sans text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{a.desc}</p>
+                    <p className="font-sans text-xs" style={{ color: 'var(--muted)' }}>{a.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
+            {step.protocol && (
+              <div
+                className="mt-2 px-4 py-3 text-sm leading-relaxed"
+                style={{ borderLeft: '3px solid var(--green)', background: 'var(--surface)', color: 'var(--muted)' }}
+              >
+                {step.protocol}
+              </div>
+            )}
           </div>
         )}
 
@@ -251,13 +264,11 @@ export default function RoutineStep({ routine }) {
 
         {/* Acciones de navegación */}
         <div className="space-y-3 pb-6">
-          {!done ? (
-            <BtnPrimary onClick={() => { toggleStep(step.id); goNext() }}>
-              {isLast ? 'Completar Rutina' : 'Completado · Siguiente →'}
-            </BtnPrimary>
-          ) : (
-            <>
-              <div className="flex items-center justify-center gap-2 py-2">
+
+          {/* Fila COMPLETADO | DESMARCAR (solo cuando el paso ya está marcado) */}
+          {done && (
+            <div className="flex items-center justify-between py-2 px-1">
+              <div className="flex items-center gap-2">
                 <div
                   className="w-5 h-5 rounded-sm flex items-center justify-center"
                   style={{ background: 'var(--green)' }}
@@ -268,21 +279,40 @@ export default function RoutineStep({ routine }) {
                   Completado
                 </span>
               </div>
-              <BtnPrimary onClick={goNext}>
-                {isLast ? 'Ver resumen →' : 'Siguiente paso →'}
-              </BtnPrimary>
               <button
                 onClick={() => toggleStep(step.id)}
-                className="w-full py-2 font-mono-dm text-[10px] tracking-widest uppercase"
+                className="font-mono-dm text-[10px] tracking-widest uppercase"
                 style={{ color: 'var(--muted)' }}
               >
                 Desmarcar
               </button>
-            </>
+            </div>
           )}
-          {!isFirst && (
-            <BtnSecondary onClick={goBack}>← Paso anterior</BtnSecondary>
+
+          {/* Fila ANTERIOR (30%) | SIGUIENTE (70%) — o SIGUIENTE solo si es el primer paso */}
+          {!isFirst ? (
+            <div className="flex gap-2">
+              <button
+                onClick={goBack}
+                className="py-4 font-sans text-sm font-medium tracking-wider uppercase transition-all duration-200 active:scale-95 border"
+                style={{ flex: '0 0 30%', background: 'transparent', color: 'var(--muted)', borderColor: 'var(--border)' }}
+              >
+                ← Anterior
+              </button>
+              <button
+                onClick={handleSiguiente}
+                className="py-4 font-sans text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95"
+                style={{ flex: '1', background: 'var(--green)', color: '#F1F0EB' }}
+              >
+                {isLast ? 'Completar' : 'Siguiente →'}
+              </button>
+            </div>
+          ) : (
+            <BtnPrimary onClick={handleSiguiente}>
+              {isLast ? 'Completar Rutina' : 'Siguiente →'}
+            </BtnPrimary>
           )}
+
         </div>
       </div>
 
