@@ -76,6 +76,21 @@ export default function Help() {
             {c.backLabel}
           </button>
         </div>
+
+        {/* Reiniciar app — para nuevo huésped */}
+        <button
+          onClick={() => {
+            localStorage.removeItem('wake_completed_steps')
+            Object.keys(sessionStorage)
+              .filter(k => k.startsWith('wake_checked_'))
+              .forEach(k => sessionStorage.removeItem(k))
+            window.location.href = '/'
+          }}
+          className="w-full py-3 font-mono-dm text-[10px] tracking-widest uppercase mt-6"
+          style={{ color: 'var(--muted)', borderTop: '1px solid var(--border)' }}
+        >
+          Reiniciar app
+        </button>
       </div>
 
       <BottomNav active="help" onNav={navGo} />

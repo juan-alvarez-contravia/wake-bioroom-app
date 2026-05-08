@@ -36,12 +36,18 @@ export default function RoutineStep({ routine }) {
 
   const [checked, setChecked] = useState({})
 
-  // Reset checklist cada vez que cambia el paso
   useEffect(() => {
-    setChecked({})
-  }, [stepIndex])
+    if (!step) return
+    const saved = sessionStorage.getItem(`wake_checked_${step.id}`)
+    setChecked(saved ? JSON.parse(saved) : {})
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [step?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const toggleChecked = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }))
+  const toggleChecked = (i) => setChecked(prev => {
+    const next = { ...prev, [i]: !prev[i] }
+    if (step) sessionStorage.setItem(`wake_checked_${step.id}`, JSON.stringify(next))
+    return next
+  })
 
   if (!step) {
     navigate(`/${routine}`)

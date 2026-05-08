@@ -142,7 +142,7 @@ export function CheckItem({ text, checked, onToggle }) {
         {checked && <span className="text-white text-xs">✓</span>}
       </div>
       <span
-        className="text-sm font-sans leading-relaxed"
+        className="text-sm font-montserrat leading-relaxed"
         style={{ color: checked ? 'var(--muted)' : 'var(--black)', textDecoration: checked ? 'line-through' : 'none' }}
       >
         {text}
@@ -156,7 +156,7 @@ export function BenefitItem({ text }) {
   return (
     <div className="flex items-start gap-3 py-2" style={{ borderBottom: '1px solid var(--border)' }}>
       <span className="flex-shrink-0 text-sm" style={{ color: 'var(--muted)', marginTop: '1px' }}>→</span>
-      <span className="text-sm font-sans" style={{ color: 'var(--black)' }}>{text}</span>
+      <span className="text-sm font-montserrat" style={{ color: 'var(--black)' }}>{text}</span>
     </div>
   )
 }

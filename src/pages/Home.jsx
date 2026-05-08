@@ -41,7 +41,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: 'var(--bg)' }}>
+    <div className="h-screen overflow-hidden" style={{ background: 'var(--bg)' }}>
 
       {/* Logo header */}
       <div
