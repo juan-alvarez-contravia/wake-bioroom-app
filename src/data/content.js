@@ -246,10 +246,7 @@ export const content = {
             "Induce estado parasimpático para preparar el sueño profundo",
             "Estimula producción natural de melatonina",
           ],
-          options: [
-            { name: "Rutina en Silla", desc: "Sentado, Red Light de frente, Mat bajo los pies o en la silla", icon: "🪑" },
-            { name: "Rutina en Bañera", desc: "Llena la bañera con agua tibia, pon el Red Light a distancia segura, entra 10 min", icon: "🛁", warning: "⚠️ Mantén el panel alejado del agua. Nunca en contacto directo." },
-          ],
+          options: null,
           steps: [
             "Extender el Grounding Mat y conectar a la corriente",
             "Elegir nivel de calor: Bajo / Medio / Alto",
@@ -284,8 +281,8 @@ export const content = {
           title: "Cena en SILO",
           tag: "Restaurante Wake BioHotel",
           description: "SILO es el restaurante de Wake BioHotel, con una propuesta gastronómica enfocada en nutrición y longevidad. El menú está diseñado para complementar tu experiencia de bienestar.",
-          pending: "Información completa de SILO pendiente — Wake BioHotel debe proveer: concepto, horario, menú, proceso de reserva.",
-          appLink: null,
+          pending: null,
+          appLink: { label: "Ver menú y reservar", scheme: "https://linktr.ee/silo.cocina" },
           icon: "🍽️",
         },
         {

@@ -111,7 +111,7 @@ export default function RoutineStep({ routine }) {
         {/* Modos disponibles (SmartGoggles PM) */}
         {step.modes && (
           <div>
-            <SectionLabel>Modos disponibles</SectionLabel>
+            <SectionLabel>Terapias recomendadas</SectionLabel>
             <div className="space-y-2">
               {step.modes.map(m => (
                 <div
@@ -172,10 +172,9 @@ export default function RoutineStep({ routine }) {
                   className="p-3 flex items-start gap-3"
                   style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
                 >
-                  <span className="text-xl">{ph.icon}</span>
                   <div>
-                    <div className="font-sans text-sm font-semibold" style={{ color: 'var(--black)' }}>{ph.name}</div>
-                    <p className="font-sans text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{ph.desc}</p>
+                    <div className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{ph.name}</div>
+                    <p className="font-montserrat text-xs mt-0.5" style={{ color: 'var(--muted)', fontWeight: 300 }}>{ph.desc}</p>
                   </div>
                 </div>
               ))}

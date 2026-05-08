@@ -83,7 +83,11 @@ export function BtnSecondary({ children, onClick, className = '' }) {
 // App Link Button (deep link to native app)
 export function BtnAppLink({ label, scheme }) {
   const handleOpen = () => {
-    window.location.href = scheme
+    if (scheme.startsWith('http')) {
+      window.open(scheme, '_blank', 'noopener')
+    } else {
+      window.location.href = scheme
+    }
   }
   return (
     <button
