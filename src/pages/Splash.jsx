@@ -27,8 +27,13 @@ export default function Splash() {
 
   return (
     <motion.div
-      className="min-h-screen flex flex-col items-center justify-center px-8 relative overflow-hidden"
-      style={{ background: '#fff' }}
+      className="flex flex-col items-center justify-center px-8 relative overflow-hidden"
+      style={{
+        background: '#fff',
+        minHeight: '100dvh',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+        paddingTop: 'env(safe-area-inset-top)',
+      }}
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.48, ease: 'easeInOut' }}
     >

@@ -273,7 +273,11 @@ export function BottomNav({ active, onNav }) {
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 flex items-center z-50"
-      style={{ background: '#F1F0EB', borderTop: '1px solid var(--border)' }}
+      style={{
+        background: '#F1F0EB',
+        borderTop: '1px solid var(--border)',
+        paddingBottom: 'env(safe-area-inset-bottom)',
+      }}
     >
       {NAV_ITEMS.map(item => (
         <button
