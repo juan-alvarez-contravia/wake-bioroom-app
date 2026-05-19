@@ -15,26 +15,26 @@ export const content = {
       title: "¿Qué rutina quieres activar hoy?",
       subtitle: "Elige el momento del día para comenzar",
       buttons: {
-        am: "Rutina de Mañana",
-        pm: "Rutina de Noche",
-        gadgets: "Explorar Gadgets",
-        help: "Ayuda y Soporte",
+        am: "Rutina de mañana",
+        pm: "Rutina de noche",
+        gadgets: "Explorar gadgets",
+        help: "Ayuda y soporte",
       },
     },
 
     // ── MÓDULO A — RUTINA AM ────────────────────────────────────────────────
     routineAM: {
       intro: {
-        title: "Tu Rutina de Mañana",
+        title: "Tu rutina de mañana",
         subtitle: "45–60 min · Recomendada entre 6am–9am",
         description: "Esta secuencia está diseñada para activar tu energía natural, sincronizar tu reloj biológico y preparar tu cuerpo y mente para el día. Sigue los pasos en orden para obtener el mayor beneficio.",
-        cta: "Comenzar Rutina AM",
+        cta: "Comenzar rutina AM",
       },
       steps: [
         {
           id: "am-1",
           step: 1,
-          title: "Panel de Luz Circadiana",
+          title: "Panel de luz circadiana",
           tag: "10–30 min · En el baño",
           description: "Activa este panel mientras te preparas. La luz de espectro completo imita el sol de la mañana y sincroniza tu reloj biológico desde los primeros minutos del día.",
           benefits: [
@@ -56,7 +56,7 @@ export const content = {
         {
           id: "am-2",
           step: 2,
-          title: "Difusor de Aceites Esenciales",
+          title: "Difusor de aceites esenciales",
           tag: "15–20 min · En la habitación",
           description: "Activa el nebulizador mientras te preparas para el día. El aroma crea un ambiente de calma y claridad mental que complementa el efecto de la luz circadiana.",
           benefits: [
@@ -133,7 +133,7 @@ export const content = {
         {
           id: "am-5",
           step: 5,
-          title: "Amenities del Hotel",
+          title: "Amenities del hotel",
           tag: "Instalaciones de Wake BioHotel",
           description: "Antes de comenzar tu día, tienes acceso a las instalaciones del hotel. Te recomendamos el protocolo de contraste térmico para activar el sistema nervioso y maximizar energía.",
           amenities: [
@@ -144,25 +144,25 @@ export const content = {
               duration: "2–3 min",
             },
             {
-              name: "Piscinas de Contrastes",
+              name: "Piscinas de contrastes",
               icon: "♨️",
               desc: "Contraste térmico (fría y caliente) para mejorar circulación, reducir inflamación y relajar el cuerpo.",
               duration: "10–15 min",
             },
             {
-              name: "Sauna Infrarrojo",
+              name: "Sauna infrarrojo",
               icon: "🌡️",
               desc: "Desintoxicación profunda y relajación muscular con calor infrarrojo.",
               duration: "15–20 min",
             },
             {
-              name: "Piscina Climatizada",
+              name: "Piscina climatizada",
               icon: "🏊",
               desc: "Disponible para huéspedes durante tu estadía.",
               duration: "A tu ritmo",
             },
           ],
-          protocol: "Protocolo recomendado: Ducha → Cold Plunge (2–3 min) → Sauna Infrarrojo (15–20 min) → Ducha fría final",
+          protocol: "Protocolo recomendado: Ducha → Cold Plunge (2–3 min) → Sauna infrarrojo (15–20 min) → Ducha fría final",
           appLink: null,
           icon: "🏨",
         },
@@ -179,16 +179,16 @@ export const content = {
     // ── MÓDULO B — RUTINA PM ────────────────────────────────────────────────
     routinePM: {
       intro: {
-        title: "Tu Rutina de Noche",
+        title: "Tu rutina de noche",
         subtitle: "60–90 min · Recomendada entre 5pm–9pm",
         description: "Esta secuencia está diseñada para desactivar el modo alerta, preparar tu sistema nervioso para el descanso y maximizar la calidad de tu sueño profundo. Empieza a desconectarte antes de lo que crees necesario.",
-        cta: "Comenzar Rutina PM",
+        cta: "Comenzar rutina PM",
       },
       steps: [
         {
           id: "pm-1",
           step: 1,
-          title: "Difusor de Aceites Esenciales",
+          title: "Difusor de aceites esenciales",
           tag: "20–30 min · En la habitación",
           description: "Activa el nebulizador al inicio de tu tarde para crear un ambiente olfativo que señaliza al sistema nervioso que es hora de descansar. Actúa como un ritual de transición entre el día activo y el sueño.",
           benefits: [
@@ -262,16 +262,16 @@ export const content = {
         {
           id: "pm-4",
           step: 4,
-          title: "Amenities Nocturnos",
+          title: "Amenities nocturnos",
           tag: "30–50 min · Instalaciones · 5pm–8pm",
           description: "Antes de cenar, vive el protocolo de contraste térmico del hotel. Esta secuencia activa el sistema nervioso, acelera la recuperación muscular y prepara el cuerpo para el descanso profundo de la noche.",
           amenities: [
             { name: "Cold Plunge", icon: "🧊", desc: "Inmersión en agua fría para activar el sistema nervioso y acelerar recuperación.", duration: "2–3 min" },
-            { name: "Piscinas de Contrastes", icon: "♨️", desc: "Contraste térmico (fría y caliente) para circulación y recuperación profunda.", duration: "10–15 min" },
-            { name: "Sauna Infrarrojo", icon: "🌡️", desc: "Desintoxicación profunda y relajación muscular.", duration: "15–20 min" },
-            { name: "Piscina Climatizada", icon: "🏊", desc: "Disponible para huéspedes.", duration: "A tu ritmo" },
+            { name: "Piscinas de contrastes", icon: "♨️", desc: "Contraste térmico (fría y caliente) para circulación y recuperación profunda.", duration: "10–15 min" },
+            { name: "Sauna infrarrojo", icon: "🌡️", desc: "Desintoxicación profunda y relajación muscular.", duration: "15–20 min" },
+            { name: "Piscina climatizada", icon: "🏊", desc: "Disponible para huéspedes.", duration: "A tu ritmo" },
           ],
-          protocol: "Protocolo recomendado: Ducha → Cold Plunge (2–3 min) → Sauna Infrarrojo (15–20 min) → Ducha fría final",
+          protocol: "Protocolo recomendado: Ducha → Cold Plunge (2–3 min) → Sauna infrarrojo (15–20 min) → Ducha fría final",
           appLink: null,
           icon: "🏨",
         },
@@ -298,13 +298,13 @@ export const content = {
             "Personalización precisa por grados, sin vibraciones ni ruido",
           ],
           temperatures: [
-            { range: "18–20°C", label: "Sueño Profundo", desc: "Óptimo para sueño profundo y enfriamiento natural", recommended: true },
+            { range: "18–20°C", label: "Sueño profundo", desc: "Óptimo para sueño profundo y enfriamiento natural", recommended: true },
             { range: "21–24°C", label: "Neutro", desc: "Para personas sensibles al frío", recommended: false },
             { range: "+26°C", label: "Recuperación", desc: "Ideal para climas fríos o recuperación muscular", recommended: false },
           ],
           steps: [
             "Abrir app Sleepme en la tablet (no requiere login)",
-            "Seleccionar tu lado de la cama: Derecho o Izquierdo",
+            "Seleccionar tu lado de la cama: derecho o izquierdo",
             "Ajustar temperatura con 'Set Temp'",
             "Revisar 'Current Temp' para confirmar",
             "Activar al menos 30 min antes de dormir",
@@ -389,7 +389,7 @@ export const content = {
         },
         {
           id: "circadian-light",
-          name: "Panel de Luz Circadiana",
+          name: "Panel de luz circadiana",
           tagline: "El sol de la mañana dentro de tu baño.",
           icon: "☀️",
           tags: ["AM"],
@@ -413,7 +413,7 @@ export const content = {
         },
         {
           id: "diffuser",
-          name: "Difusor de Aceites Esenciales",
+          name: "Difusor de aceites esenciales",
           tagline: "Aromaterapia de grado terapéutico para cada momento.",
           icon: "🌿",
           tags: ["AM", "PM"],
@@ -506,14 +506,14 @@ export const content = {
             "Personalización precisa de temperatura, por grado",
           ],
           temperatures: [
-            { range: "18–20°C", label: "Sueño Profundo", recommended: true },
+            { range: "18–20°C", label: "Sueño profundo", recommended: true },
             { range: "21–24°C", label: "Neutro", recommended: false },
             { range: "+26°C", label: "Recuperación", recommended: false },
           ],
           steps: [
             "Verificar que el sistema esté conectado en ambos lados de la cama",
             "Abrir app Sleepme en la tablet (no requiere login)",
-            "Seleccionar tu lado: Derecho o Izquierdo",
+            "Seleccionar tu lado: derecho o izquierdo",
             "Ajustar temperatura con 'Set Temp'",
             "Revisar 'Current Temp' para confirmar",
             "Activar al menos 30 min antes de dormir",
@@ -559,7 +559,7 @@ export const content = {
 
     // ── MÓDULO D — SOPORTE ──────────────────────────────────────────────────
     support: {
-      title: "Ayuda y Soporte",
+      title: "Ayuda y soporte",
       subtitle: "¿Tienes alguna duda sobre los gadgets o tu estadía?",
       faq: [
         {
@@ -583,7 +583,7 @@ export const content = {
           a: "Sí. Desde la app Sleepme puedes ajustar la temperatura en cualquier momento, incluso mientras duermes.",
         },
       ],
-      contactLabel: "Contactar Recepción",
+      contactLabel: "Contactar recepción",
       backLabel: "Volver al inicio",
     },
 
