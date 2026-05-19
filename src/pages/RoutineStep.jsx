@@ -11,13 +11,13 @@ import contrasteImg from '../assets/Contraste.webp'
 import saunaImg from '../assets/Suauna-Infrarojo.webp'
 import piscinaImg from '../assets/Piscina.webp'
 
-const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1778181612/VideoPanelLuz_iapxga.mov'
+const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1779213543/luz-circadiana.mov'
 
 const AMENITY_IMAGES = {
   'Cold Plunge': coldImg,
-  'Piscinas de Contrastes': contrasteImg,
-  'Sauna Infrarrojo': saunaImg,
-  'Piscina Climatizada': piscinaImg,
+  'Piscinas de contrastes': contrasteImg,
+  'Sauna infrarrojo': saunaImg,
+  'Piscina climatizada': piscinaImg,
 }
 
 export default function RoutineStep({ routine }) {
@@ -68,7 +68,7 @@ export default function RoutineStep({ routine }) {
   return (
     <div className="min-h-screen pb-28" style={{ background: 'var(--bg)' }}>
 
-      {/* Navegación superior */}
+      {/* ── HEADER (full width) ── */}
       <div className="pt-12 pb-6" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
         <div className="flex justify-end">
           <button
@@ -84,192 +84,202 @@ export default function RoutineStep({ routine }) {
         </div>
       </div>
 
-      {/* Video */}
-      <div style={{ paddingLeft: '40px', paddingRight: '40px', marginBottom: '24px' }}>
-        <video
-          src={step.video || VIDEO_DEFAULT}
-          autoPlay
-          muted
-          loop
-          playsInline
-          style={{ width: '100%', display: 'block', aspectRatio: '16/9', background: 'var(--black)' }}
-        />
+      {/* ── DOS COLUMNAS: video izquierda · contenido derecha ── */}
+      <div
+        className="flex items-start"
+        style={{ paddingLeft: '40px', paddingRight: '40px', gap: '32px', marginBottom: '32px' }}
+      >
+
+        {/* COLUMNA IZQUIERDA — video vertical 9:16 */}
+        <div style={{ width: '300px', flexShrink: 0, overflow: 'hidden', background: 'var(--black)' }}>
+          <video
+            src={step.video || VIDEO_DEFAULT}
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover' }}
+          />
+        </div>
+
+        {/* COLUMNA DERECHA — descripción + pasos */}
+        <div className="flex-1 space-y-6" style={{ minWidth: 0 }}>
+
+          {/* Descripción */}
+          <p className="font-montserrat text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
+            {step.description}
+          </p>
+
+          {/* Pending note (SILO pm-5) */}
+          {step.pending && (
+            <div
+              className="px-4 py-3 text-sm leading-relaxed italic"
+              style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--muted)' }}
+            >
+              {step.pending}
+            </div>
+          )}
+
+          {/* Modos disponibles (SmartGoggles PM) */}
+          {step.modes && (
+            <div>
+              <SectionLabel>Terapias recomendadas</SectionLabel>
+              <div className="space-y-2">
+                {step.modes.map(m => (
+                  <div
+                    key={m.name}
+                    className="p-3"
+                    style={{
+                      background: m.recommended ? 'var(--surface)' : 'transparent',
+                      border: `1px solid ${m.recommended ? 'var(--green)' : 'var(--border)'}`,
+                    }}
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{m.name}</span>
+                      {m.recommended && <Tag color="green">Recomendado</Tag>}
+                    </div>
+                    <p className="font-montserrat text-xs" style={{ color: 'var(--muted)' }}>{m.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Temperaturas (DockPro) */}
+          {step.temperatures && (
+            <div>
+              <SectionLabel>Temperaturas</SectionLabel>
+              <div className="space-y-2">
+                {step.temperatures.map(t => (
+                  <div
+                    key={t.range}
+                    className="p-3 flex items-center gap-4"
+                    style={{
+                      background: t.recommended ? 'var(--surface)' : 'transparent',
+                      border: `1px solid ${t.recommended ? 'var(--green)' : 'var(--border)'}`,
+                    }}
+                  >
+                    <div className="font-mono-dm text-lg font-medium" style={{ color: t.recommended ? 'var(--green)' : 'var(--muted)' }}>
+                      {t.range}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-montserrat text-sm font-medium" style={{ color: 'var(--black)' }}>{t.label}</div>
+                      {t.desc && <div className="font-montserrat text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{t.desc}</div>}
+                      {t.recommended && <div className="mt-1"><Tag color="green">Recomendado</Tag></div>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Fases (Hatch) */}
+          {step.phases && (
+            <div>
+              <SectionLabel>Fases de la noche</SectionLabel>
+              <div className="space-y-2">
+                {step.phases.map(ph => (
+                  <div
+                    key={ph.name}
+                    className="p-3 flex items-start gap-3"
+                    style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
+                  >
+                    <div>
+                      <div className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{ph.name}</div>
+                      <p className="font-montserrat text-xs mt-0.5" style={{ color: 'var(--muted)', fontWeight: 300 }}>{ph.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Opciones de uso (Grounding + Red Light) */}
+          {step.options && (
+            <div>
+              <SectionLabel>Opciones de uso</SectionLabel>
+              <div className="space-y-2">
+                {step.options.map(o => (
+                  <div key={o.name}>
+                    <div className="p-3" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{o.name}</span>
+                      </div>
+                      <p className="font-montserrat text-xs" style={{ color: 'var(--muted)' }}>{o.desc}</p>
+                    </div>
+                    {o.warning && <WarningBox>{o.warning}</WarningBox>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Instalaciones (Amenities) */}
+          {step.amenities && (
+            <div>
+              <SectionLabel>Instalaciones</SectionLabel>
+              <div className="space-y-2">
+                {step.amenities.map(a => (
+                  <div
+                    key={a.name}
+                    className="flex items-start"
+                    style={{ background: 'var(--surface)', border: '1px solid var(--border)', overflow: 'hidden' }}
+                  >
+                    <div style={{ width: '90px', minHeight: '90px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
+                      {(a.image || AMENITY_IMAGES[a.name]) && (
+                        <img
+                          src={a.image || AMENITY_IMAGES[a.name]}
+                          alt={a.name}
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      )}
+                    </div>
+                    <div className="flex-1 py-2 px-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{a.name}</span>
+                        <span className="font-mono-dm text-[10px]" style={{ color: 'var(--muted)' }}>{a.duration}</span>
+                      </div>
+                      <p className="font-montserrat text-xs" style={{ color: 'var(--muted)' }}>{a.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {step.protocol && (
+                <div
+                  className="mt-2 px-4 py-3 font-montserrat text-sm leading-relaxed"
+                  style={{ borderLeft: '3px solid var(--green)', background: 'var(--surface)', color: 'var(--muted)' }}
+                >
+                  {step.protocol}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Deep link a app nativa */}
+          {step.appLink && (
+            <BtnAppLink label={step.appLink.label} scheme={step.appLink.scheme} />
+          )}
+
+          {/* Cómo usarlo — checklist */}
+          {step.steps && step.steps.length > 0 && (
+            <div>
+              <SectionLabel>Cómo usarlo</SectionLabel>
+              {step.steps.map((s, i) => (
+                <CheckItem
+                  key={i}
+                  text={s}
+                  checked={!!checked[i]}
+                  onToggle={() => toggleChecked(i)}
+                />
+              ))}
+            </div>
+          )}
+
+        </div>
       </div>
 
-      {/* Contenido del paso */}
+      {/* ── PARTE INFERIOR: beneficios · advertencia · navegación ── */}
       <div className="space-y-6" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
-
-        {/* Descripción */}
-        <p className="font-sans text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
-          {step.description}
-        </p>
-
-        {/* Pending note (SILO pm-5) */}
-        {step.pending && (
-          <div
-            className="px-4 py-3 text-sm leading-relaxed italic"
-            style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--muted)' }}
-          >
-            {step.pending}
-          </div>
-        )}
-
-        {/* Modos disponibles (SmartGoggles PM) */}
-        {step.modes && (
-          <div>
-            <SectionLabel>Terapias recomendadas</SectionLabel>
-            <div className="space-y-2">
-              {step.modes.map(m => (
-                <div
-                  key={m.name}
-                  className="p-3"
-                  style={{
-                    background: m.recommended ? 'var(--surface)' : 'transparent',
-                    border: `1px solid ${m.recommended ? 'var(--green)' : 'var(--border)'}`,
-                  }}
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-sans text-sm font-semibold" style={{ color: 'var(--black)' }}>{m.name}</span>
-                    {m.recommended && <Tag color="green">Recomendado</Tag>}
-                  </div>
-                  <p className="font-sans text-xs" style={{ color: 'var(--muted)' }}>{m.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Temperaturas (DockPro) */}
-        {step.temperatures && (
-          <div>
-            <SectionLabel>Temperaturas</SectionLabel>
-            <div className="space-y-2">
-              {step.temperatures.map(t => (
-                <div
-                  key={t.range}
-                  className="p-3 flex items-center gap-4"
-                  style={{
-                    background: t.recommended ? 'var(--surface)' : 'transparent',
-                    border: `1px solid ${t.recommended ? 'var(--green)' : 'var(--border)'}`,
-                  }}
-                >
-                  <div className="font-mono-dm text-lg font-medium" style={{ color: t.recommended ? 'var(--green)' : 'var(--muted)' }}>
-                    {t.range}
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-sans text-sm font-medium" style={{ color: 'var(--black)' }}>{t.label}</div>
-                    {t.desc && <div className="font-sans text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{t.desc}</div>}
-                    {t.recommended && <div className="mt-1"><Tag color="green">Recomendado</Tag></div>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Fases (Hatch) */}
-        {step.phases && (
-          <div>
-            <SectionLabel>Fases de la noche</SectionLabel>
-            <div className="space-y-2">
-              {step.phases.map(ph => (
-                <div
-                  key={ph.name}
-                  className="p-3 flex items-start gap-3"
-                  style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
-                >
-                  <div>
-                    <div className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{ph.name}</div>
-                    <p className="font-montserrat text-xs mt-0.5" style={{ color: 'var(--muted)', fontWeight: 300 }}>{ph.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Opciones de uso (Grounding + Red Light) */}
-        {step.options && (
-          <div>
-            <SectionLabel>Opciones de uso</SectionLabel>
-            <div className="space-y-2">
-              {step.options.map(o => (
-                <div key={o.name}>
-                  <div className="p-3" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span>{o.icon}</span>
-                      <span className="font-sans text-sm font-semibold" style={{ color: 'var(--black)' }}>{o.name}</span>
-                    </div>
-                    <p className="font-sans text-xs" style={{ color: 'var(--muted)' }}>{o.desc}</p>
-                  </div>
-                  {o.warning && <WarningBox>{o.warning}</WarningBox>}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Instalaciones (Amenities) */}
-        {step.amenities && (
-          <div>
-            <SectionLabel>Instalaciones</SectionLabel>
-            <div className="space-y-2">
-              {step.amenities.map(a => (
-                <div
-                  key={a.name}
-                  className="flex items-start gap-3"
-                  style={{ background: 'var(--surface)', border: '1px solid var(--border)', overflow: 'hidden' }}
-                >
-                  {/* Imagen de la instalación */}
-                  <div style={{ width: '110px', minHeight: '110px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
-                    {(a.image || AMENITY_IMAGES[a.name]) && (
-                      <img
-                        src={a.image || AMENITY_IMAGES[a.name]}
-                        alt={a.name}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      />
-                    )}
-                  </div>
-                  <div className="flex-1 py-3 pr-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-sans text-sm font-semibold" style={{ color: 'var(--black)' }}>{a.name}</span>
-                      <span className="font-mono-dm text-[10px]" style={{ color: 'var(--muted)' }}>{a.duration}</span>
-                    </div>
-                    <p className="font-sans text-xs" style={{ color: 'var(--muted)' }}>{a.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            {step.protocol && (
-              <div
-                className="mt-2 px-4 py-3 text-sm leading-relaxed"
-                style={{ borderLeft: '3px solid var(--green)', background: 'var(--surface)', color: 'var(--muted)' }}
-              >
-                {step.protocol}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Deep link a app nativa — antes del checklist */}
-        {step.appLink && (
-          <BtnAppLink label={step.appLink.label} scheme={step.appLink.scheme} />
-        )}
-
-        {/* Cómo usarlo */}
-        {step.steps && step.steps.length > 0 && (
-          <div>
-            <SectionLabel>Cómo usarlo</SectionLabel>
-            {step.steps.map((s, i) => (
-              <CheckItem
-                key={i}
-                text={s}
-                checked={!!checked[i]}
-                onToggle={() => toggleChecked(i)}
-              />
-            ))}
-          </div>
-        )}
 
         {/* Beneficios */}
         {step.benefits && step.benefits.length > 0 && (
@@ -285,7 +295,6 @@ export default function RoutineStep({ routine }) {
         {/* Acciones de navegación */}
         <div className="space-y-3 pb-6">
 
-          {/* Fila COMPLETADO | DESMARCAR (solo cuando el paso ya está marcado) */}
           {done && (
             <div className="flex items-center justify-between py-2 px-1">
               <div className="flex items-center gap-2">
@@ -309,27 +318,26 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Fila ANTERIOR (30%) | SIGUIENTE (70%) — o SIGUIENTE solo si es el primer paso */}
           {!isFirst ? (
             <div className="flex gap-2">
               <button
                 onClick={goBack}
-                className="py-4 font-sans text-sm font-medium tracking-wider uppercase transition-all duration-200 active:scale-95 border"
+                className="py-4 font-montserrat text-sm font-medium tracking-wider uppercase transition-all duration-200 active:scale-95 border"
                 style={{ flex: '0 0 30%', background: 'transparent', color: 'var(--muted)', borderColor: 'var(--border)' }}
               >
-                ← Anterior
+                Anterior
               </button>
               <button
                 onClick={handleSiguiente}
-                className="py-4 font-sans text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95"
+                className="py-4 font-montserrat text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95"
                 style={{ flex: '1', background: 'var(--green)', color: '#F1F0EB' }}
               >
-                {isLast ? 'Completar' : 'Siguiente →'}
+                {isLast ? 'Completar' : 'Siguiente'}
               </button>
             </div>
           ) : (
             <BtnPrimary onClick={handleSiguiente}>
-              {isLast ? 'Completar Rutina' : 'Siguiente →'}
+              {isLast ? 'Completar rutina' : 'Siguiente'}
             </BtnPrimary>
           )}
 

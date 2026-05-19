@@ -1,157 +1,150 @@
 # Wake BioHotel — BioRoom Experience App
 
-Estoy construyendo la Wake BioHotel BioRoom Experience App.
-Es una PWA en React + Vite + Tailwind CSS desplegada en Vercel.
+PWA en React + Vite + Tailwind CSS desplegada en Vercel. Se instala en una tablet iPad dentro de la BioRoom — sin login, sin cuentas.
 
-**Repositorio:** https://github.com/juan-alvarez-contravia/wake-bioroom-app
-**Deploy:** https://wake-bioroom-app.vercel.app
-**Rama principal:** main
-**Ruta local:** ~/Downloads/wake-bioroom-app
+**Repo:** https://github.com/juan-alvarez-contravia/wake-bioroom-app  
+**Deploy:** https://wake-bioroom-app.vercel.app  
+**Rama:** main | **Local:** `~/Documents/wake-bioroom-app`
 
-## Commands
+## Comandos
 
 ```bash
-npm run dev       # Start dev server
-npm run build     # Production build
-npm run lint      # ESLint
-npm run preview   # Preview production build
+npm run dev      # Servidor de desarrollo
+npm run build    # Build de producción
+npm run preview  # Preview del build
 ```
 
-Node.js v25.9.0 instalado. No hay framework de tests configurado.
+Node.js v25.9.0. Sin framework de tests.
 
 ## Stack
 
-- React 19 + Vite 8
-- Tailwind CSS v4 (`@tailwindcss/vite`, sin `tailwind.config.js` — customización en `index.css` vía `@theme`)
-- Framer Motion
-- React Router DOM v7
-- Zustand (instalado, aún sin usar — AppContext usa useState/localStorage)
+- React 19 + Vite 8 + React Router DOM v7
+- Tailwind CSS v4 (sin `tailwind.config.js` — customización en `index.css`)
+- Framer Motion (usado en Splash y RoutineComplete)
+- AppContext con `useState` + `localStorage` (Zustand instalado pero sin usar)
 
-## Contexto de negocio
+---
 
-Wake BioHotel es el primer BioHotel de Latinoamérica en Medellín, Colombia.
-La BioRoom es una habitación premium con 7 gadgets de biohacking.
-La app reemplaza un instructivo físico de 20 páginas con una experiencia gamificada.
-Se instala como PWA en una tablet iPad dentro de la habitación.
-El huésped **no necesita hacer login** en ninguna app de la tablet.
+## Reglas globales — aplicar siempre
 
-## Módulos de la app
+1. **Sin emojis** en ningún JSX ni en `content.js`.
+2. **`font-lora`** — siempre en mayúsculas (`.font-lora` tiene `text-transform: uppercase` en CSS). Nunca añadir `uppercase` inline.
+3. **`font-lora-subtitulo`** — Lora sin uppercase (para subtítulos en Lora minúscula).
+4. **`font-mono-dm`** — está mapeada a Montserrat 500 en CSS. Usarla para labels/tags/uppercase tracking.
+5. **`font-montserrat`** — Montserrat regular. Usarla en textos de cuerpo, checklist, beneficios.
+6. **`font-sans`** — no usar en componentes nuevos; reemplazar siempre por `font-montserrat`.
+7. **Colores** — solo CSS variables: `var(--bg)`, `var(--surface)`, `var(--card)`, `var(--border)`, `var(--muted)`, `var(--green)`, `var(--red)`, `var(--black)`. Hardcodear solo `#F1F0EB` para texto blanco/crema sobre fondos oscuros.
+8. **Padding horizontal** — 40px en todos los módulos (`paddingLeft: '40px', paddingRight: '40px'`). No usar `px-6`.
+9. **BottomNav** en todas las páginas. Cada página define su propio `navGo` con el mapa estándar.
+10. **No TipBox** en RoutineStep — eliminados de todos los pasos.
+11. **No BtnSecondary** en RoutineStep — reemplazado por el layout dividido ANTERIOR/SIGUIENTE.
 
-- **Módulo A:** Rutina AM → 5 pasos (Circadian Light, Difusor, Grounding Mat + Red Light, SmartGoggles, Amenities)
-- **Módulo B:** Rutina PM → 7 pasos (Difusor, SmartGoggles, Grounding Mat + Red Light, Amenities, SILO, DockPro, Hatch)
-- **Módulo C:** Gadgets → galería + 7 fichas individuales
-- **Módulo D:** Soporte → FAQ + contacto recepción
+---
 
-## Estado actual de páginas (`src/pages/`)
-
-| Archivo | Estado | Notas |
-|---|---|---|
-| `Splash.jsx` | ✅ Completo | Auto-navega a /home después de 3.2s |
-| `Home.jsx` | ✅ Completo | Progress AM/PM, acceso gadgets/ayuda/idioma |
-| `RoutineIntro.jsx` | ✅ Completo | Intro compartida AM/PM con lista de pasos |
-| `RoutineStep.jsx` | ✅ Completo | Paso individual con todos los tipos de contenido |
-| `RoutineComplete.jsx` | ✅ Completo | Resumen + reiniciar rutina |
-| `Gadgets.jsx` | ✅ Completo | Galería de 7 gadgets |
-| `GadgetDetail.jsx` | ✅ Completo | Ficha individual por gadget |
-| `Help.jsx` | ✅ Completo | FAQ acordeón + contacto recepción |
-| `Language.jsx` | ✅ Completo | Selector ES/EN |
-
-## Arquitectura
-
-### Router (`src/App.jsx`)
-
-`AppProvider` y `BrowserRouter` viven dentro de `App.jsx`. `main.jsx` solo monta el root.
-
-Rutas:
-```
-/                → Splash
-/home            → Home
-/am              → RoutineIntro (routine="am")
-/pm              → RoutineIntro (routine="pm")
-/am/paso/:step   → RoutineStep (routine="am", step 1-based)
-/pm/paso/:step   → RoutineStep (routine="pm", step 1-based)
-/am/completa     → RoutineComplete (routine="am")
-/pm/completa     → RoutineComplete (routine="pm")
-/gadgets         → Gadgets
-/gadgets/:id     → GadgetDetail
-/ayuda           → Help
-/idioma          → Language
-```
-
-### Content layer (`src/data/content.js`)
-
-Single source of truth. Estructura `content.es.*` (completa) / `contentEN.*` (stub).
-
-- `content.es.routineAM.steps` — 5 steps (`am-1`…`am-5`)
-- `content.es.routinePM.steps` — 7 steps (`pm-1`…`pm-7`)
-  - Cada step tiene: `id`, `title`, `tag`, `description`, `icon`
-  - Opcionales según el gadget: `benefits[]`, `steps[]`, `tip`, `warning`, `appLink`, `modes[]`, `options[]`, `temperatures[]`, `phases[]`, `amenities[]`, `protocol`, `pending`
-- `content.es.gadgets.items` — 7 gadgets con `id`, `name`, `icon`, `tags[]`, `whatIs`, `benefits[]`, `steps[]`, `recommendation`, `warning`, `appLink`, `routines[]`
-- `content.es.support.faq[]` — preguntas frecuentes
-- `content.es.language` — strings del selector de idioma
-
-### Global state (`src/context/AppContext.jsx`)
-
-Consume con `useApp()`. Persiste en `localStorage` bajo `wake_completed_steps`.
-
-- `lang` / `setLang` — idioma actual (`'es'` por defecto)
-- `completedSteps` — `{ [stepId]: boolean }` (claves como `"am-1"`, `"pm-3"`)
-- `toggleStep(stepId)` — marcar/desmarcar un paso
-- `isCompleted(stepId)` — boolean
-- `getProgress(stepsArray)` — devuelve `{ done, total, pct }`
-- `resetRoutine('am' | 'pm')` — borra todos los pasos de esa rutina
-
-### UI components (`src/components/UI.jsx`)
-
-`ProgressBar`, `SectionLabel`, `Tag`, `BtnPrimary`, `BtnSecondary`, `BtnAppLink`, `WarningBox`, `TipBox`, `CheckItem`, `BenefitItem`, `BackBtn`, `StepHeader`, `BottomNav`
-
-`BtnAppLink` abre apps nativas vía deep link (`window.location.href = scheme`).
-Deep links: `therabody://`, `sleepme://`, `hatch://`
-
-`BottomNav` acepta props `active` (string) y `onNav(id)` (callback). Cada página define su propio `navGo`:
-```js
-const navGo = (id) => {
-  const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
-  navigate(map[id] || '/home')
-}
-```
-
-### Convenciones de estilo
-
-- **Colores:** siempre usar CSS variables (`var(--green)`, `var(--red)`, `var(--bg)`, `var(--surface)`, `var(--card)`, `var(--border)`, `var(--muted)`, `var(--black)`). Solo hardcodear `#F1F0EB` para texto blanco/crema sobre fondos oscuros.
-- **Tipografía:** Montserrat es el default del body. `font-lora` para títulos. `font-mono-dm` para labels/tags/uppercase tracking. Definidas en `index.css` como clases CSS, no utilidades de Tailwind.
-- **Tailwind v4:** las clases utilidad funcionan normal. Sin archivo config — customización en `index.css`.
-
-### Paleta de colores
+## Paleta de colores
 
 ```
---bg:      #F1F0EB  (fondo crema dominante)
+--bg:      #F1F0EB  (crema dominante)
 --surface: #E8E7E1
 --card:    #E4E2DB
 --border:  #D0CEC6
 --muted:   #8C8980
 --green:   #616652  (botones, progreso, activos)
---red:     #722F15  (labels, pasos, alertas)
---black:   #141414  (textos)
+--red:     #722F15  (SectionLabel, alertas)
+--black:   #141414
 ```
 
-### Modelo de completado de pasos
+## Estado de páginas
 
-- Sub-pasos instruccionales (`step.steps[]`) usan `useState` local — no persisten.
-- El paso completo (`step.id`) se marca en AppContext vía `toggleStep`. RoutineStep llama `toggleStep(step.id)` y navega al siguiente en una acción.
-- La ProgressBar en Home y RoutineIntro refleja los pasos completados en AppContext/localStorage.
+| Página | Estado | Notas clave |
+|---|---|---|
+| `Splash.jsx` | ✅ | CTA manual → /home |
+| `Home.jsx` | ✅ | `h-screen overflow-hidden`; cards AM/PM con imagen+overlay; carousel gadgets |
+| `RoutineIntro.jsx` | ✅ | 40px padding; dom/luna SVG; pasos con Lora Light |
+| `RoutineStep.jsx` | ✅ | Video Cloudinary; ANTERIOR 30%/SIGUIENTE 70%; checklist en sessionStorage |
+| `RoutineComplete.jsx` | ✅ | Framer Motion entrada; dom/luna SVG; botones 50/50 |
+| `Gadgets.jsx` | ✅ | Galería 7 gadgets |
+| `GadgetDetail.jsx` | ✅ | Ficha individual |
+| `Help.jsx` | ✅ | FAQ acordeón; "Reiniciar app" borra todo y va a Splash |
+| `Language.jsx` | ✅ | Selector ES/EN |
 
-## Deep links a apps nativas
+---
+
+## Arquitectura
+
+### Rutas (`src/App.jsx`)
+
+```
+/              → Splash
+/home          → Home
+/am            → RoutineIntro (routine="am")
+/pm            → RoutineIntro (routine="pm")
+/am/paso/:n    → RoutineStep  (routine="am", 1-based)
+/pm/paso/:n    → RoutineStep  (routine="pm", 1-based)
+/am/completa   → RoutineComplete (routine="am")
+/pm/completa   → RoutineComplete (routine="pm")
+/gadgets       → Gadgets
+/gadgets/:id   → GadgetDetail
+/ayuda         → Help
+/idioma        → Language
+```
+
+### Content (`src/data/content.js`)
+
+Single source of truth en `content.es.*`.
+
+**Campos de cada step:**
+- Requeridos: `id`, `title`, `tag`, `description`
+- Opcionales: `benefits[]`, `steps[]`, `warning`, `appLink`, `video`
+- Especiales: `modes[]` (SmartGoggles PM), `temperatures[]` (DockPro), `phases[]` (Hatch), `amenities[]` (am-5, pm-4), `protocol`, `options` (null en pm-3), `pending` (null en pm-5)
+
+**Campo `video`:** URL de Cloudinary. Si es null, RoutineStep usa `VIDEO_DEFAULT` (el video del panel de luz). Al agregar videos individuales, basta con `video: "url"` en el step.
+
+**Campo `image` en amenities:** null por defecto. Al agregar imágenes, poner `image: importedUrl` en el amenity. El mapeo base por nombre está en `AMENITY_IMAGES` dentro de RoutineStep.jsx.
+
+### Estado global (`src/context/AppContext.jsx`)
+
+`useApp()` expone:
+- `completedSteps` — persiste en `localStorage` (`wake_completed_steps`)
+- `toggleStep(stepId)` / `isCompleted(stepId)` / `getProgress(steps)` / `resetRoutine('am'|'pm')`
+
+**Checklist de sub-pasos:** persiste en `sessionStorage` bajo `wake_checked_{step.id}`. Se limpia al reiniciar app.
+
+**Reiniciar app completo** (Help.jsx): borra `localStorage` + todas las claves `wake_checked_*` de sessionStorage → `window.location.href = '/'`.
+
+### UI Components (`src/components/UI.jsx`)
+
+`ProgressBar` · `SectionLabel` · `Tag` · `BtnPrimary` · `BtnSecondary` · `BtnAppLink` · `WarningBox` · `TipBox` · `CheckItem` · `BenefitItem` · `BackBtn` · `StepHeader` · `BottomNav`
+
+- `ProgressBar` acepta prop `light` para fondo oscuro (texto/barra en blanco).
+- `BtnAppLink`: deep links con `window.location.href`; URLs `http*` se abren con `window.open(_blank)`.
+- `StepHeader`: sin emoji, título en Lora Light.
+- `BenefitItem`: bullet `→` en lugar de punto.
+
+### Deep links
 
 | App | Scheme |
 |---|---|
-| Sleepme | `sleepme://` |
 | Therabody | `therabody://` |
+| Sleepme | `sleepme://` |
 | Hatch Sleep | `hatch://` |
+| SILO (web) | `https://linktr.ee/silo.cocina` |
+
+### Assets clave
+
+| Archivo | Uso |
+|---|---|
+| `WBdia.webp` / `WBnoche.webp` | Fondo tarjetas AM/PM en Home |
+| `dom.svg` / `luna.svg` | Ícono AM/PM en BottomNav, RoutineIntro, RoutineComplete |
+| `Logo-Bio-Negro.webp` | Header Home |
+| `Cold.webp` · `Contraste.webp` · `Suauna-Infrarojo.webp` · `Piscina.webp` | Imágenes amenities |
+| `WB-*.webp` | Carousel gadgets Home + ficha GadgetDetail |
 
 ## Comportamiento especial
 
-- El difusor aparece en AM (paso 2) y PM (paso 1) con instrucciones diferentes.
-- Las SmartGoggles muestran modos Focus/SmartRelax en AM (paso 4) y modo Sleep en PM (paso 2).
-- La app funciona en modo PWA pantalla completa en iPad (sin barra del navegador).
-- El SILO (pm-5) tiene contenido pendiente — solo muestra un notice de `step.pending`.
+- **am-4 SmartGoggles AM:** `modes: null`; muestra solo appLink Therabody antes del checklist.
+- **pm-2 SmartGoggles PM:** tiene `modes[]` con label "Terapias recomendadas".
+- **pm-3 Grounding Mat PM:** `options: null` — no muestra "Opciones de uso".
+- **pm-5 SILO:** `pending: null`; tiene appLink a linktr.ee (abre en Safari).
+- **Home:** `h-screen overflow-hidden` — sin scroll (confirmado que todo cabe en iPad).
+- **RoutineStep:** scroll to top automático al cambiar de paso (`window.scrollTo instant`).
