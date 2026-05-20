@@ -119,7 +119,7 @@ export function TipBox({ children }) {
       className="px-4 py-3 text-sm leading-relaxed"
       style={{ borderLeft: '3px solid var(--green)', background: 'var(--surface)', color: 'var(--muted)' }}
     >
-      💡 {children}
+      {children}
     </div>
   )
 }

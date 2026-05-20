@@ -11,7 +11,12 @@ import contrasteImg from '../assets/Contraste.webp'
 import saunaImg from '../assets/Suauna-Infrarojo.webp'
 import piscinaImg from '../assets/Piscina.webp'
 
-const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1779213543/luz-circadiana.mov'
+const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/w_600,q_auto,f_auto/v1779213543/luz-circadiana.mov'
+
+function optimizeVideoUrl(url) {
+  if (!url || !url.includes('res.cloudinary.com')) return url
+  return url.replace('/upload/q_auto/f_auto/', '/upload/w_600,q_auto,f_auto/')
+}
 
 const AMENITY_IMAGES = {
   'Cold Plunge': coldImg,
@@ -35,11 +40,13 @@ export default function RoutineStep({ routine }) {
   }
 
   const [checked, setChecked] = useState({})
+  const [videoLoaded, setVideoLoaded] = useState(false)
 
   useEffect(() => {
     if (!step) return
     const saved = sessionStorage.getItem(`wake_checked_${step.id}`)
     setChecked(saved ? JSON.parse(saved) : {})
+    setVideoLoaded(false)
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [step?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -90,16 +97,75 @@ export default function RoutineStep({ routine }) {
         style={{ paddingLeft: '40px', paddingRight: '40px', gap: '32px', marginBottom: '32px' }}
       >
 
-        {/* COLUMNA IZQUIERDA — video vertical 9:16 */}
-        <div style={{ width: '300px', flexShrink: 0, overflow: 'hidden', background: 'var(--black)' }}>
-          <video
-            src={step.video || VIDEO_DEFAULT}
-            autoPlay
-            muted
-            loop
-            playsInline
-            style={{ width: '100%', display: 'block', aspectRatio: '9/16', objectFit: 'cover' }}
-          />
+        {/* COLUMNA IZQUIERDA — video vertical 9:16 o placeholder */}
+        <div style={{ width: '300px', flexShrink: 0, overflow: 'hidden', background: step.videoPlaceholder ? 'var(--surface)' : 'var(--black)' }}>
+          {step.videoPlaceholder ? (
+            <div
+              style={{
+                width: '100%',
+                aspectRatio: '9/16',
+                border: '2px dashed var(--border)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px',
+              }}
+            >
+              <div
+                style={{
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '50%',
+                  background: 'var(--border)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <span style={{ color: 'var(--muted)', fontSize: '18px', marginLeft: '3px' }}>&#9654;</span>
+              </div>
+              <span className="font-mono-dm text-[10px] tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
+                Video próximamente
+              </span>
+            </div>
+          ) : (
+            <div style={{ position: 'relative', width: '100%', aspectRatio: '9/16' }}>
+              <video
+                src={optimizeVideoUrl(step.video || VIDEO_DEFAULT)}
+                autoPlay
+                muted
+                loop
+                playsInline
+                onLoadedData={() => setVideoLoaded(true)}
+                style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}
+              />
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'var(--black)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  opacity: videoLoaded ? 0 : 1,
+                  transition: 'opacity 0.4s ease',
+                  pointerEvents: videoLoaded ? 'none' : 'auto',
+                }}
+              >
+                <div
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    border: '3px solid rgba(241,240,235,0.2)',
+                    borderTopColor: '#F1F0EB',
+                    borderRadius: '50%',
+                    animation: 'spin 0.8s linear infinite',
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* COLUMNA DERECHA — descripción + pasos */}
@@ -110,6 +176,43 @@ export default function RoutineStep({ routine }) {
             {step.description}
           </p>
 
+          {/* QR placeholder (Playlist) */}
+          {step.qrImage && (
+            <div
+              style={{
+                width: '180px',
+                height: '180px',
+                background: 'var(--surface)',
+                border: '2px dashed var(--border)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+              }}
+            >
+              <div
+                style={{
+                  width: '64px',
+                  height: '64px',
+                  background: 'var(--border)',
+                  borderRadius: '4px',
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '6px',
+                  padding: '10px',
+                }}
+              >
+                {[0,1,2,3].map(i => (
+                  <div key={i} style={{ background: 'var(--muted)', borderRadius: '2px' }} />
+                ))}
+              </div>
+              <span className="font-mono-dm text-[10px] tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
+                QR Playlist
+              </span>
+            </div>
+          )}
+
           {/* Pending note (SILO pm-5) */}
           {step.pending && (
             <div
@@ -117,6 +220,29 @@ export default function RoutineStep({ routine }) {
               style={{ background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--muted)' }}
             >
               {step.pending}
+            </div>
+          )}
+
+          {/* Gomitas / suplemento nocturno (Cena PM) */}
+          {step.gummies && (
+            <div>
+              <SectionLabel>Suplemento de la noche</SectionLabel>
+              <div className="p-4" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                <div className="font-montserrat text-sm font-semibold mb-2" style={{ color: 'var(--black)' }}>
+                  {step.gummies.title}
+                </div>
+                <p className="font-montserrat text-xs leading-relaxed mb-3" style={{ color: 'var(--muted)' }}>
+                  {step.gummies.description}
+                </p>
+                <div className="space-y-1">
+                  {step.gummies.benefits.map((b, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span className="text-xs shrink-0 mt-0.5" style={{ color: 'var(--muted)' }}>→</span>
+                      <span className="font-montserrat text-xs" style={{ color: 'var(--black)' }}>{b}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
@@ -214,6 +340,40 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
+          {/* Macronutrientes (Desayuno en Silo) */}
+          {step.macros && (
+            <div>
+              <SectionLabel>Macronutrientes</SectionLabel>
+              <div className="space-y-2">
+                {step.macros.map(m => (
+                  <div key={m.name} className="p-3" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                    <div className="font-montserrat text-sm font-semibold mb-1" style={{ color: 'var(--black)' }}>{m.name}</div>
+                    <p className="font-montserrat text-xs leading-relaxed" style={{ color: 'var(--muted)' }}>{m.examples}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Tecnología disponible (Sastra) */}
+          {step.features && (
+            <div>
+              <SectionLabel>Tecnología disponible</SectionLabel>
+              <div>
+                {step.features.map(f => (
+                  <div
+                    key={f.name}
+                    className="flex items-center gap-3 py-2"
+                    style={{ borderBottom: '1px solid var(--border)' }}
+                  >
+                    <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: 'var(--green)' }} />
+                    <span className="font-montserrat text-sm" style={{ color: 'var(--black)' }}>{f.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Instalaciones (Amenities) */}
           {step.amenities && (
             <div>
@@ -225,14 +385,12 @@ export default function RoutineStep({ routine }) {
                     className="flex items-start"
                     style={{ background: 'var(--surface)', border: '1px solid var(--border)', overflow: 'hidden' }}
                   >
-                    <div style={{ width: '90px', minHeight: '90px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
-                      {(a.image || AMENITY_IMAGES[a.name]) && (
-                        <img
-                          src={a.image || AMENITY_IMAGES[a.name]}
-                          alt={a.name}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      )}
+                    <div style={{ width: '90px', height: '90px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
+                      <img
+                        src={a.image || AMENITY_IMAGES[a.name] || ''}
+                        alt={a.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
                     </div>
                     <div className="flex-1 py-2 px-3">
                       <div className="flex items-center justify-between mb-1">
@@ -244,20 +402,32 @@ export default function RoutineStep({ routine }) {
                   </div>
                 ))}
               </div>
-              {step.protocol && (
-                <div
-                  className="mt-2 px-4 py-3 font-montserrat text-sm leading-relaxed"
-                  style={{ borderLeft: '3px solid var(--green)', background: 'var(--surface)', color: 'var(--muted)' }}
-                >
-                  {step.protocol}
-                </div>
-              )}
             </div>
           )}
 
           {/* Deep link a app nativa */}
           {step.appLink && (
             <BtnAppLink label={step.appLink.label} scheme={step.appLink.scheme} />
+          )}
+
+          {/* Aromaterapia roll-on (Difusor am-5) */}
+          {step.aromatherapy && (
+            <div>
+              <SectionLabel>Aromaterapia</SectionLabel>
+              <div className="p-4" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
+                <div className="font-montserrat text-sm font-semibold mb-2" style={{ color: 'var(--black)' }}>
+                  {step.aromatherapy.title}
+                </div>
+                <p className="font-montserrat text-xs leading-relaxed mb-2" style={{ color: 'var(--muted)' }}>
+                  {step.aromatherapy.description}
+                </p>
+                {step.aromatherapy.tip && (
+                  <p className="font-montserrat text-xs italic" style={{ color: 'var(--green)' }}>
+                    {step.aromatherapy.tip}
+                  </p>
+                )}
+              </div>
+            </div>
           )}
 
           {/* Cómo usarlo — checklist */}
@@ -275,6 +445,24 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
+          {/* Botones externos del contenido */}
+          {step.buttons && step.buttons.some(b => b.type === 'external') && (
+            <div className="space-y-2">
+              {step.buttons
+                .filter(b => b.type === 'external')
+                .map(b => (
+                  <button
+                    key={b.label}
+                    onClick={() => b.url && window.open(b.url, '_blank')}
+                    className="w-full py-3 font-montserrat text-sm font-medium tracking-wider uppercase transition-all active:scale-95"
+                    style={{ background: 'var(--black)', color: '#F1F0EB' }}
+                  >
+                    {b.label}
+                  </button>
+                ))}
+            </div>
+          )}
+
         </div>
       </div>
 
@@ -286,6 +474,16 @@ export default function RoutineStep({ routine }) {
           <div>
             <SectionLabel>Beneficios</SectionLabel>
             {step.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
+          </div>
+        )}
+
+        {/* Protocolo recomendado (Amenities) */}
+        {step.protocol && (
+          <div
+            className="px-4 py-3 font-montserrat text-sm leading-relaxed"
+            style={{ borderLeft: '3px solid var(--green)', background: 'var(--surface)', color: 'var(--muted)' }}
+          >
+            {step.protocol}
           </div>
         )}
 
