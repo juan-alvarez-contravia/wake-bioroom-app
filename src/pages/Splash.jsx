@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { content } from '../data/content'
-import logoBio from '../assets/Logo-Bio-Negro.webp'
+import logoBio from '../assets/Logo-bio-blanco-full.webp'
+import manchaImg from '../assets/mancha.webp'
 
 export default function Splash() {
   const [visible, setVisible] = useState(false)
@@ -29,7 +30,7 @@ export default function Splash() {
     <motion.div
       className="flex flex-col items-center justify-center px-8 relative overflow-hidden"
       style={{
-        background: '#fff',
+        background: '#616652',
         minHeight: '100dvh',
         paddingBottom: 'env(safe-area-inset-bottom)',
         paddingTop: 'env(safe-area-inset-top)',
@@ -37,51 +38,22 @@ export default function Splash() {
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.48, ease: 'easeInOut' }}
     >
-      {/* ── Animated background blobs ── */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Green blob — top-left */}
-        <div
-          className="splash-blob splash-blob-green"
-          style={{
-            position: 'absolute',
-            width: '520px',
-            height: '520px',
-            top: '5%',
-            left: '-8%',
-            background: 'radial-gradient(circle at 55% 45%, #616652 0%, #3d4035 45%, transparent 72%)',
-            filter: 'blur(90px)',
-            opacity: 0.65,
-            animation: 'blobGreen 13s ease-in-out infinite',
-          }}
-        />
-        {/* Red blob — bottom-right */}
-        <div
-          style={{
-            position: 'absolute',
-            width: '480px',
-            height: '480px',
-            bottom: '0%',
-            right: '-12%',
-            background: 'radial-gradient(circle at 45% 55%, #722F15 0%, #4a1d0a 45%, transparent 72%)',
-            filter: 'blur(100px)',
-            opacity: 0.60,
-            animation: 'blobRed 17s ease-in-out infinite',
-          }}
-        />
-        {/* Center warm glow — subtle overlap */}
-        <div
-          style={{
-            position: 'absolute',
-            width: '340px',
-            height: '340px',
-            top: '28%',
-            left: '18%',
-            background: 'radial-gradient(circle, rgba(140,105,60,0.18) 0%, transparent 70%)',
-            filter: 'blur(60px)',
-            animation: 'blobCenter 10s ease-in-out infinite',
-          }}
-        />
-      </div>
+      {/* ── Mancha decorativa — centrada, pantalla completa ── */}
+      <img
+        src={manchaImg}
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: '100%',
+          left: '50%',
+          width: '200%',
+          transform: 'translate(-50%, -50%)',
+          pointerEvents: 'none',
+          opacity: 0.3,
+          animation: 'manchaPulse 5s ease-in-out infinite',
+        }}
+      />
 
       {/* ── Content ── */}
       <div
@@ -91,7 +63,7 @@ export default function Splash() {
           transform: visible ? 'translateY(0)' : 'translateY(28px)',
         }}
       >
-        {/* Logo image */}
+        {/* Logo */}
         <div className="mb-10">
           <img
             src={logoBio}
@@ -103,21 +75,21 @@ export default function Splash() {
         {/* Divider tagline */}
         <div
           className="font-mono-dm text-[10px] tracking-widest uppercase mb-10 flex items-center justify-center gap-3"
-          style={{ color: 'rgba(114, 47, 21, 0.75)' }}
+          style={{ color: 'rgba(241,240,235,0.6)' }}
         >
           <div className="w-8 h-px bg-current" />
           BioRoom Experience
           <div className="w-8 h-px bg-current" />
         </div>
 
-        {/* Title — uppercase, Lora 400 */}
+        {/* Title */}
         <h1
           style={{
             fontFamily: "'Lora', serif",
             fontWeight: 400,
             fontSize: '1.875rem',
             lineHeight: 1.25,
-            color: '#000',
+            color: '#F1F0EB',
             textTransform: 'uppercase',
             letterSpacing: '0.03em',
             marginBottom: '1rem',
@@ -127,14 +99,14 @@ export default function Splash() {
           {c.title}
         </h1>
 
-        {/* Subtitle — white, Montserrat */}
+        {/* Subtitle */}
         <p
           style={{
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 300,
             fontSize: '0.875rem',
             lineHeight: 1.7,
-            color: '#000',
+            color: '#F1F0EB',
             opacity: 0.75,
             maxWidth: '17rem',
             marginBottom: '3rem',
@@ -143,7 +115,7 @@ export default function Splash() {
           {c.subtitle}
         </p>
 
-        {/* CTA Button with bounce on click */}
+        {/* CTA Button */}
         <motion.button
           onClick={handleStart}
           animate={
@@ -155,8 +127,8 @@ export default function Splash() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           style={{
-            background: 'var(--green)',
-            color: '#F1F0EB',
+            background: '#E4E2DB',
+            color: '#616652',
             fontFamily: "'Montserrat', sans-serif",
             fontWeight: 600,
             fontSize: '0.8125rem',
@@ -174,37 +146,19 @@ export default function Splash() {
 
       {/* ── Keyframe animations ── */}
       <style>{`
-        @keyframes blobGreen {
+        @keyframes manchaPulse {
           0%, 100% {
-            border-radius: 62% 38% 34% 66% / 58% 32% 68% 42%;
-            transform: translate(0, 0) scale(1);
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            opacity: 0.30;
           }
-          30% {
-            border-radius: 42% 58% 62% 38% / 44% 66% 34% 56%;
-            transform: translate(6%, 8%) scale(1.06);
-          }
-          65% {
-            border-radius: 55% 45% 38% 62% / 62% 38% 58% 42%;
-            transform: translate(-4%, 12%) scale(0.94);
-          }
-        }
-        @keyframes blobRed {
-          0%, 100% {
-            border-radius: 48% 52% 44% 56% / 42% 62% 38% 58%;
-            transform: translate(0, 0) scale(1);
-          }
-          35% {
-            border-radius: 66% 34% 56% 44% / 58% 42% 62% 38%;
-            transform: translate(-7%, -8%) scale(1.08);
+          40% {
+            transform: translate(-50%, -50%) scale(1.12) rotate(3deg);
+            opacity: 0.42;
           }
           70% {
-            border-radius: 34% 66% 48% 52% / 66% 34% 54% 46%;
-            transform: translate(5%, -12%) scale(0.92);
+            transform: translate(-50%, -50%) scale(0.94) rotate(-2deg);
+            opacity: 0.24;
           }
-        }
-        @keyframes blobCenter {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          50% { transform: translate(10%, 6%) scale(1.1); }
         }
       `}</style>
     </motion.div>

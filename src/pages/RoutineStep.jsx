@@ -10,6 +10,7 @@ import coldImg from '../assets/Cold.webp'
 import contrasteImg from '../assets/Contraste.webp'
 import saunaImg from '../assets/Suauna-Infrarojo.webp'
 import piscinaImg from '../assets/Piscina.webp'
+import gymImg from '../assets/gym-app.webp'
 
 const VIDEO_DEFAULT = 'https://res.cloudinary.com/dn0t6obmx/video/upload/w_600,q_auto,f_auto/v1779213543/luz-circadiana.mov'
 
@@ -21,8 +22,11 @@ function optimizeVideoUrl(url) {
 const AMENITY_IMAGES = {
   'Cold Plunge': coldImg,
   'Piscinas de contrastes': contrasteImg,
+  'Jacuzzi de contraste': contrasteImg,
   'Sauna infrarrojo': saunaImg,
   'Piscina climatizada': piscinaImg,
+  'Piscina de natación con purificación salina': piscinaImg,
+  'Gimnasio de alta performance': gymImg,
 }
 
 export default function RoutineStep({ routine }) {
@@ -41,14 +45,25 @@ export default function RoutineStep({ routine }) {
 
   const [checked, setChecked] = useState({})
   const [videoLoaded, setVideoLoaded] = useState(false)
+  const [amenityIdx, setAmenityIdx] = useState(0)
 
   useEffect(() => {
     if (!step) return
     const saved = sessionStorage.getItem(`wake_checked_${step.id}`)
     setChecked(saved ? JSON.parse(saved) : {})
     setVideoLoaded(false)
+    setAmenityIdx(0)
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [step?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (!step?.amenitiesCarousel) return
+    const timer = setInterval(
+      () => setAmenityIdx(i => (i + 1) % step.amenities.length),
+      5000
+    )
+    return () => clearInterval(timer)
+  }, [step?.id, step?.amenitiesCarousel]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const toggleChecked = (i) => setChecked(prev => {
     const next = { ...prev, [i]: !prev[i] }
@@ -171,10 +186,12 @@ export default function RoutineStep({ routine }) {
         {/* COLUMNA DERECHA — descripción + pasos */}
         <div className="flex-1 space-y-6" style={{ minWidth: 0 }}>
 
-          {/* Descripción */}
-          <p className="font-montserrat text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
-            {step.description}
-          </p>
+          {/* Descripción — oculta en pasos con carrusel de instalaciones */}
+          {!step.amenitiesCarousel && (
+            <p className="font-montserrat text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
+              {step.description}
+            </p>
+          )}
 
           {/* QR placeholder (Playlist) */}
           {step.qrImage && (
@@ -223,28 +240,8 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Gomitas / suplemento nocturno (Cena PM) */}
-          {step.gummies && (
-            <div>
-              <SectionLabel>Suplemento de la noche</SectionLabel>
-              <div className="p-4" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
-                <div className="font-montserrat text-sm font-semibold mb-2" style={{ color: 'var(--black)' }}>
-                  {step.gummies.title}
-                </div>
-                <p className="font-montserrat text-xs leading-relaxed mb-3" style={{ color: 'var(--muted)' }}>
-                  {step.gummies.description}
-                </p>
-                <div className="space-y-1">
-                  {step.gummies.benefits.map((b, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <span className="text-xs shrink-0 mt-0.5" style={{ color: 'var(--muted)' }}>→</span>
-                      <span className="font-montserrat text-xs" style={{ color: 'var(--black)' }}>{b}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Nota de alerta (Cena PM) */}
+          {step.note && <WarningBox>{step.note}</WarningBox>}
 
           {/* Modos disponibles (SmartGoggles PM) */}
           {step.modes && (
@@ -374,8 +371,53 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Instalaciones (Amenities) */}
-          {step.amenities && (
+          {/* Instalaciones — carrusel (am-8) */}
+          {step.amenitiesCarousel && step.amenities && (() => {
+            const a = step.amenities[amenityIdx]
+            const img = AMENITY_IMAGES[a.name]
+            return (
+              <div>
+                <SectionLabel>Instalaciones</SectionLabel>
+                <div key={amenityIdx} style={{ animation: 'fadeIn 0.4s ease' }}>
+                  {img ? (
+                    <div style={{ width: '100%', height: '250px', overflow: 'hidden', marginBottom: '14px', background: 'var(--card)' }}>
+                      <img src={img} alt={a.name} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    </div>
+                  ) : (
+                    <div style={{ width: '100%', height: '250px', background: 'var(--surface)', marginBottom: '14px' }} />
+                  )}
+                  <div className="font-lora-subtitulo text-base mb-0.5" style={{ color: 'var(--black)' }}>{a.name}</div>
+                  <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-3" style={{ color: 'var(--muted)' }}>{a.subtitle}</div>
+                  <p className="font-montserrat text-xs leading-relaxed mb-3" style={{ color: 'var(--muted)' }}>{a.phrase}</p>
+                  {a.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
+                </div>
+
+                {/* Navegación anterior / siguiente */}
+                <div className="flex items-center justify-between mt-5" style={{ paddingTop: '16px' }}>
+                  <button
+                    onClick={() => setAmenityIdx(i => (i - 1 + step.amenities.length) % step.amenities.length)}
+                    className="flex items-center gap-2 font-mono-dm text-[10px] tracking-widest uppercase transition-all active:scale-95"
+                    style={{ color: 'var(--muted)' }}
+                  >
+                    ← Anterior
+                  </button>
+                  <span className="font-mono-dm text-[10px] tracking-widest" style={{ color: 'var(--muted)' }}>
+                    {amenityIdx + 1} / {step.amenities.length}
+                  </span>
+                  <button
+                    onClick={() => setAmenityIdx(i => (i + 1) % step.amenities.length)}
+                    className="flex items-center gap-2 font-mono-dm text-[10px] tracking-widest uppercase transition-all active:scale-95"
+                    style={{ color: 'var(--green)' }}
+                  >
+                    Siguiente →
+                  </button>
+                </div>
+              </div>
+            )
+          })()}
+
+          {/* Instalaciones — tarjetas (otros pasos con amenities) */}
+          {step.amenities && !step.amenitiesCarousel && (
             <div>
               <SectionLabel>Instalaciones</SectionLabel>
               <div className="space-y-2">
@@ -399,6 +441,34 @@ export default function RoutineStep({ routine }) {
                       </div>
                       <p className="font-montserrat text-xs" style={{ color: 'var(--muted)' }}>{a.desc}</p>
                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Tarjetas de temperatura en 3 columnas (DockPro) */}
+          {step.temperatureCards && (
+            <div>
+              <SectionLabel>Temperaturas recomendadas</SectionLabel>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                {step.temperatureCards.map(t => (
+                  <div
+                    key={t.range}
+                    className="p-3"
+                    style={{
+                      background: t.recommended ? 'var(--surface)' : 'transparent',
+                      border: `1px solid ${t.recommended ? 'var(--green)' : 'var(--border)'}`,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <div className="font-mono-dm text-base mb-2" style={{ color: t.recommended ? 'var(--green)' : 'var(--black)' }}>
+                      {t.range}
+                    </div>
+                    <div className="font-montserrat text-xs leading-snug" style={{ color: 'var(--muted)' }}>
+                      {t.label}
+                    </div>
+                    {t.recommended && <div className="mt-2"><Tag color="green">Recomendado</Tag></div>}
                   </div>
                 ))}
               </div>
@@ -469,13 +539,32 @@ export default function RoutineStep({ routine }) {
       {/* ── PARTE INFERIOR: beneficios · advertencia · navegación ── */}
       <div className="space-y-6" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
 
-        {/* Beneficios */}
-        {step.benefits && step.benefits.length > 0 && (
+        {/* Beneficios — dos columnas si hay benefitGroups (am-6) */}
+        {step.benefitGroups ? (
+          <div>
+            <SectionLabel>Beneficios</SectionLabel>
+            <div className="flex items-start" style={{ gap: 0 }}>
+              {step.benefitGroups.map((group, gi) => (
+                <>
+                  {gi > 0 && (
+                    <div key={`div-${gi}`} style={{ width: '1px', background: 'var(--red)', alignSelf: 'stretch', flexShrink: 0 }} />
+                  )}
+                  <div key={group.title} style={{ flex: 1, paddingLeft: gi > 0 ? '20px' : 0, paddingRight: gi === 0 ? '20px' : 0 }}>
+                    <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-2" style={{ color: 'var(--red)' }}>
+                      {group.title}
+                    </div>
+                    {group.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
+                  </div>
+                </>
+              ))}
+            </div>
+          </div>
+        ) : step.benefits && step.benefits.length > 0 ? (
           <div>
             <SectionLabel>Beneficios</SectionLabel>
             {step.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
           </div>
-        )}
+        ) : null}
 
         {/* Protocolo recomendado (Amenities) */}
         {step.protocol && (

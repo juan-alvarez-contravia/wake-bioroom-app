@@ -24,13 +24,13 @@ const GADGET_IMAGES = {
 }
 
 const GADGET_STEPS = {
-  'grounding-mat':   { am: 6,  pm: 5  },
+  'grounding-mat':   { am: 6,  pm: 4  },
   'circadian-light': { am: 4              },
   'diffuser':        { am: 5,  pm: 3  },
-  'smartgoggles':    { am: 7,  pm: 9  },
-  'red-light':       { am: 6,  pm: 5  },
-  'dockpro':         {         pm: 10 },
-  'hatch':           {         pm: 11 },
+  'smartgoggles':    { am: 7,  pm: 8  },
+  'red-light':       { am: 6,  pm: 4  },
+  'dockpro':         {         pm: 9  },
+  'hatch':           {         pm: 10 },
 }
 
 export default function GadgetDetail() {
