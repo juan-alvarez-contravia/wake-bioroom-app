@@ -228,6 +228,23 @@ export default function Home() {
           </div>
         </div>
 
+        {/* CTA Complementos */}
+        <div
+          className="flex items-center justify-between p-4"
+          style={{ border: '1px solid var(--border)', background: 'var(--surface)' }}
+        >
+          <p className="font-montserrat text-sm leading-snug" style={{ color: 'var(--black)', maxWidth: '62%' }}>
+            <span style={{ fontWeight: 600 }}>¿Quieres más?</span> Conoce los complementos que tenemos para ti
+          </p>
+          <button
+            onClick={() => navigate('/complementos')}
+            className="font-mono-dm text-[10px] tracking-widest uppercase px-4 py-2 transition-all active:scale-95 shrink-0"
+            style={{ background: 'var(--green)', color: '#F1F0EB' }}
+          >
+            Ver Complementos
+          </button>
+        </div>
+
         {/* Total progress */}
         <div className="pt-1 pb-1">
           <div

@@ -7,6 +7,7 @@ import RoutineStep from './pages/RoutineStep'
 import RoutineComplete from './pages/RoutineComplete'
 import Gadgets from './pages/Gadgets'
 import GadgetDetail from './pages/GadgetDetail'
+import Complementos from './pages/Complementos'
 import Help from './pages/Help'
 import Language from './pages/Language'
 
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/pm/completa" element={<RoutineComplete routine="pm" />} />
           <Route path="/gadgets" element={<Gadgets />} />
           <Route path="/gadgets/:id" element={<GadgetDetail />} />
+          <Route path="/complementos" element={<Complementos />} />
           <Route path="/ayuda" element={<Help />} />
           <Route path="/idioma" element={<Language />} />
           <Route path="*" element={<Navigate to="/" replace />} />

@@ -343,7 +343,7 @@ export const content = {
           tip: "Una sesión de 20–30 min al inicio de la tarde es suficiente. No saturar el ambiente.",
           aromatherapy: {
             title: "Aromaterapia",
-            description: "En tu nochero encontrarás un spray de lavanda. Lo puedes aplicar directamente en la almohada o en tus muñecas antes de dormir y facilitar la transición al sueño.",
+            description: "En tu nochero encontrarás un mist de lavanda. Lo puedes aplicar directamente en la almohada o en tus muñecas antes de dormir y facilitar la transición al sueño.",
             tip: "La lavanda reduce el cortisol y activa el sistema nervioso parasimpático. Ideal para comenzar el ritual de noche.",
           },
           appLink: null,
