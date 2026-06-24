@@ -6,6 +6,14 @@ import {
   StepHeader, BenefitItem, CheckItem, WarningBox,
   BtnPrimary, BtnAppLink, SectionLabel, Tag, BottomNav,
 } from '../components/UI'
+import stretchImg from '../assets/Stretch-adn-Tone.webp'
+import amQrImg from '../assets/AMRoutineMusic.png'
+import pmQrImg from '../assets/PMRoutineMusic.png'
+
+const QR_IMAGES = {
+  'am-1': amQrImg,
+  'pm-1': pmQrImg,
+}
 import coldImg from '../assets/Cold.webp'
 import contrasteImg from '../assets/Contraste.webp'
 import saunaImg from '../assets/Suauna-Infrarojo.webp'
@@ -113,8 +121,28 @@ export default function RoutineStep({ routine }) {
       >
 
         {/* COLUMNA IZQUIERDA — video vertical 9:16 o placeholder */}
-        <div style={{ width: '300px', flexShrink: 0, overflow: 'hidden', background: step.videoPlaceholder ? 'var(--surface)' : 'var(--black)' }}>
-          {step.videoPlaceholder ? (
+        <div style={{ width: step.spotifyEmbed ? '60%' : '300px', flexShrink: step.spotifyEmbed ? 1 : 0, overflow: 'hidden', background: step.spotifyEmbed ? 'transparent' : step.stretchImage ? 'var(--card)' : step.videoPlaceholder ? 'var(--surface)' : 'var(--black)' }}>
+          {step.spotifyEmbed ? (
+            <iframe
+              data-testid="embed-iframe"
+              src={step.spotifyEmbed}
+              width="100%"
+              height="352"
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              style={{ borderRadius: '12px', display: 'block' }}
+            />
+          ) : step.stretchImage ? (
+            <div style={{ width: '100%', aspectRatio: '9/16', overflow: 'hidden' }}>
+              <img
+                src={stretchImg}
+                alt=""
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          ) : step.videoPlaceholder ? (
             <div
               style={{
                 width: '100%',
@@ -193,40 +221,17 @@ export default function RoutineStep({ routine }) {
             </p>
           )}
 
-          {/* QR placeholder (Playlist) */}
-          {step.qrImage && (
-            <div
-              style={{
-                width: '180px',
-                height: '180px',
-                background: 'var(--surface)',
-                border: '2px dashed var(--border)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-              }}
-            >
-              <div
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  background: 'var(--border)',
-                  borderRadius: '4px',
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '6px',
-                  padding: '10px',
-                }}
-              >
-                {[0,1,2,3].map(i => (
-                  <div key={i} style={{ background: 'var(--muted)', borderRadius: '2px' }} />
-                ))}
+          {/* QR Playlist */}
+          {step.qrImage && QR_IMAGES[step.id] && (
+            <div>
+              <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-3" style={{ color: 'var(--muted)' }}>
+                Escanea para abrir la playlist
               </div>
-              <span className="font-mono-dm text-[10px] tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
-                QR Playlist
-              </span>
+              <img
+                src={QR_IMAGES[step.id]}
+                alt="QR Playlist"
+                style={{ width: '180px', height: '180px', display: 'block', objectFit: 'contain' }}
+              />
             </div>
           )}
 
