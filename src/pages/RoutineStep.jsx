@@ -7,12 +7,19 @@ import {
   BtnPrimary, BtnAppLink, SectionLabel, Tag, BottomNav,
 } from '../components/UI'
 import stretchImg from '../assets/Stretch-adn-Tone.webp'
+import baneraImg from '../assets/Banera.webp'
 import amQrImg from '../assets/AMRoutineMusic.png'
 import pmQrImg from '../assets/PMRoutineMusic.png'
 
 const QR_IMAGES = {
   'am-1': amQrImg,
   'pm-1': pmQrImg,
+}
+
+const STEP_IMAGES = {
+  'am-2': stretchImg,
+  'pm-2': stretchImg,
+  'pm-7': baneraImg,
 }
 import coldImg from '../assets/Cold.webp'
 import contrasteImg from '../assets/Contraste.webp'
@@ -121,7 +128,7 @@ export default function RoutineStep({ routine }) {
       >
 
         {/* COLUMNA IZQUIERDA — video vertical 9:16 o placeholder */}
-        <div style={{ width: step.spotifyEmbed ? '60%' : '300px', flexShrink: step.spotifyEmbed ? 1 : 0, overflow: 'hidden', background: step.spotifyEmbed ? 'transparent' : step.stretchImage ? 'var(--card)' : step.videoPlaceholder ? 'var(--surface)' : 'var(--black)' }}>
+        <div style={{ width: step.spotifyEmbed ? '60%' : '300px', flexShrink: step.spotifyEmbed ? 1 : 0, overflow: 'hidden', background: step.spotifyEmbed ? 'transparent' : STEP_IMAGES[step.id] ? 'var(--card)' : step.videoPlaceholder ? 'var(--surface)' : 'var(--black)' }}>
           {step.spotifyEmbed ? (
             <iframe
               data-testid="embed-iframe"
@@ -134,10 +141,10 @@ export default function RoutineStep({ routine }) {
               loading="lazy"
               style={{ borderRadius: '12px', display: 'block' }}
             />
-          ) : step.stretchImage ? (
+          ) : STEP_IMAGES[step.id] ? (
             <div style={{ width: '100%', aspectRatio: '9/16', overflow: 'hidden' }}>
               <img
-                src={stretchImg}
+                src={STEP_IMAGES[step.id]}
                 alt=""
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
@@ -215,7 +222,7 @@ export default function RoutineStep({ routine }) {
         <div className="flex-1 space-y-6" style={{ minWidth: 0 }}>
 
           {/* Descripción — oculta en pasos con carrusel de instalaciones */}
-          {!step.amenitiesCarousel && (
+          {!step.amenitiesCarousel && !step.spotifyEmbed && (
             <p className="font-montserrat text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
               {step.description}
             </p>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BackBtn, SectionLabel, BottomNav } from '../components/UI'
+import qrFrontImg from '../assets/QR-Front.png'
 
 const COMPLEMENTOS = [
   { id: 'funda-seda',     name: 'Funda de seda para almohada', tag: 'Renta', price: '$400.000 COP' },
@@ -124,36 +125,13 @@ export default function Complementos() {
               <span style={{ color: 'var(--black)' }}>{selected.name.toLowerCase()}</span>
             </p>
 
-            {/* QR placeholder */}
-            <div
-              className="mx-auto flex flex-col items-center justify-center gap-3"
-              style={{
-                width: '164px',
-                height: '164px',
-                background: 'var(--surface)',
-                border: '2px dashed var(--border)',
-              }}
-            >
-              <div
-                style={{
-                  width: '72px',
-                  height: '72px',
-                  background: 'var(--border)',
-                  borderRadius: '4px',
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: '6px',
-                  padding: '10px',
-                }}
-              >
-                {[0, 1, 2, 3].map(i => (
-                  <div key={i} style={{ background: 'var(--muted)', borderRadius: '2px' }} />
-                ))}
-              </div>
-              <span className="font-mono-dm text-[9px] tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
-                QR próximamente
-              </span>
-            </div>
+            {/* QR */}
+            <img
+              src={qrFrontImg}
+              alt="QR Complementos"
+              className="mx-auto block"
+              style={{ width: '164px', height: '164px', objectFit: 'contain' }}
+            />
           </div>
         </div>
       )}
