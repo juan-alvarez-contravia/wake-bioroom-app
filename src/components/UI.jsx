@@ -81,18 +81,24 @@ export function BtnSecondary({ children, onClick, className = '' }) {
 }
 
 // App Link Button (deep link to native app)
-export function BtnAppLink({ label, scheme }) {
+// storeUrl: fallback URL (itms-apps://) si el scheme no abre ninguna app
+export function BtnAppLink({ label, scheme, storeUrl }) {
   const handleOpen = () => {
     if (scheme.startsWith('http')) {
       window.open(scheme, '_blank', 'noopener')
-    } else {
-      window.location.href = scheme
+      return
     }
+    if (storeUrl) {
+      // Si la app no responde al scheme en 1.5s, abre el App Store como fallback
+      const t = setTimeout(() => { window.location.href = storeUrl }, 1500)
+      window.addEventListener('pagehide', () => clearTimeout(t), { once: true })
+    }
+    window.location.href = scheme
   }
   return (
     <button
       onClick={handleOpen}
-      className="w-full py-4 flex items-center justify-center font-sans text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95 border"
+      className="w-full py-4 flex items-center justify-center font-montserrat text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95 border"
       style={{ background: 'var(--black)', color: '#F1F0EB', borderColor: 'var(--black)' }}
     >
       {label}

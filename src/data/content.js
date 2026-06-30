@@ -575,7 +575,7 @@ export const content = {
           ],
           warning: 'El sistema ya tiene agua. No lo abras ni lo rellenes. Si hay burbujas o se detiene, llama a recepción.',
           video:  'https://res.cloudinary.com/dn0t6obmx/video/upload/v1781836440/SLEEP_SYSTEM_1_rm3ppu.mp4',
-          appLink: { label: 'Abrir app Sleepme', scheme: 'sleepme://' },
+          appLink: { label: 'Abrir app Sleepme', scheme: 'chilipad://', storeUrl: 'itms-apps://itunes.apple.com/app/id1532989079' },
         },
         {
           id: 'pm-10', step: 10,
@@ -603,7 +603,7 @@ export const content = {
           ],
           tip:    'Toque rápido en la parte superior del Hatch: inicia o detiene. Toque largo: apaga todo.',
           video:  'https://res.cloudinary.com/dn0t6obmx/video/upload/v1782398817/ALARM_1_slx9du.mp4',
-          appLink: { label: 'Abrir app Hatch Sleep', scheme: 'hatch://' },
+          appLink: { label: 'Abrir app Hatch Sleep', scheme: 'hatch://', storeUrl: 'itms-apps://itunes.apple.com/app/id1158048301' },
         },
       ],
       completed: {
@@ -776,7 +776,7 @@ export const content = {
           ],
           recommendation: 'Activar 30 min antes de dormir. Combinar con luz circadiana, red light o aromaterapia. Apagar desde la app al despertar.',
           warning:  'El sistema requiere agua para funcionar. Ya está lleno y calibrado. No intentar abrirlo ni rellenarlo. Ante cualquier duda contactar recepción.',
-          appLink:  { label: 'Abrir app Sleepme', scheme: 'sleepme://' },
+          appLink:  { label: 'Abrir app Sleepme', scheme: 'chilipad://', storeUrl: 'itms-apps://itunes.apple.com/app/id1532989079' },
           routines: ['pm'],
         },
         {
@@ -806,7 +806,7 @@ export const content = {
           ],
           recommendation: 'Iniciar rutina 20–30 min antes de dormir. Usar luces cálidas y sonidos naturales. Activar Wake Up como despertador principal.',
           warning:  null,
-          appLink:  { label: 'Abrir app Hatch Sleep', scheme: 'hatch://' },
+          appLink:  { label: 'Abrir app Hatch Sleep', scheme: 'hatch://', storeUrl: 'itms-apps://itunes.apple.com/app/id1158048301' },
           routines: ['pm'],
         },
       ],
@@ -1432,7 +1432,7 @@ export const content = {
           ],
           warning: 'The system already has water. Do not open or refill it. If there are bubbles or it stops, call reception.',
           video:  'https://res.cloudinary.com/dn0t6obmx/video/upload/v1781836440/SLEEP_SYSTEM_1_rm3ppu.mp4',
-          appLink: { label: 'Open Sleepme app', scheme: 'sleepme://' },
+          appLink: { label: 'Open Sleepme app', scheme: 'chilipad://', storeUrl: 'itms-apps://itunes.apple.com/app/id1532989079' },
         },
         {
           id: 'pm-10', step: 10,
@@ -1460,7 +1460,7 @@ export const content = {
           ],
           tip:    'Quick tap on top of Hatch: starts or stops. Long press: turns everything off.',
           video:  'https://res.cloudinary.com/dn0t6obmx/video/upload/v1782398817/ALARM_1_slx9du.mp4',
-          appLink: { label: 'Open Hatch Sleep app', scheme: 'hatch://' },
+          appLink: { label: 'Open Hatch Sleep app', scheme: 'hatch://', storeUrl: 'itms-apps://itunes.apple.com/app/id1158048301' },
         },
       ],
       completed: {
@@ -1633,7 +1633,7 @@ export const content = {
           ],
           recommendation: 'Activate 30 min before sleeping. Combine with circadian light, red light or aromatherapy. Turn off from the app when you wake up.',
           warning:  'The system requires water to function. It is already filled and calibrated. Do not try to open or refill it. For any questions contact reception.',
-          appLink:  { label: 'Open Sleepme app', scheme: 'sleepme://' },
+          appLink:  { label: 'Open Sleepme app', scheme: 'chilipad://', storeUrl: 'itms-apps://itunes.apple.com/app/id1532989079' },
           routines: ['pm'],
         },
         {
@@ -1663,7 +1663,7 @@ export const content = {
           ],
           recommendation: 'Start routine 20–30 min before sleeping. Use warm lights and natural sounds. Activate Wake Up as main alarm.',
           warning:  null,
-          appLink:  { label: 'Open Hatch Sleep app', scheme: 'hatch://' },
+          appLink:  { label: 'Open Hatch Sleep app', scheme: 'hatch://', storeUrl: 'itms-apps://itunes.apple.com/app/id1158048301' },
           routines: ['pm'],
         },
       ],
