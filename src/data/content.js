@@ -987,7 +987,7 @@ export const content = {
             { name: 'Go to the gym',      desc: 'The hotel facilities have a gym available for guests.' },
             { name: 'Cultural classes',   desc: 'Check the cultural schedule and sign up for free morning classes.' },
           ],
-          stepImage: true,
+          video:   'https://res.cloudinary.com/dn0t6obmx/video/upload/v1782835833/Adobe_Express_-_Brunch_1_hahyly.mp4',
           buttons: [{ label: 'View class schedule', type: 'agenda-modal' }],
           tip:     'Fasted exercise enhances fat burning. If you prefer more energy first, have breakfast before.',
           appLink: null,

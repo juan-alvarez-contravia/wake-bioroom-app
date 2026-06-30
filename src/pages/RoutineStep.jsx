@@ -18,7 +18,6 @@ const QR_IMAGES = {
 }
 
 const STEP_IMAGES = {
-  'am-2': stretchImg,
   'pm-2': stretchImg,
   'pm-7': baneraImg,
 }
