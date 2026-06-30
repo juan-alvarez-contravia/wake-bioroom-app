@@ -154,7 +154,7 @@ export const content = {
             { name: 'Carbohidratos',    examples: 'Panes, waffles de yuca, frutas y verduras.' },
             { name: 'Grasas saludables', examples: 'Esparcibles, aguacate, mantequillas naturales.' },
           ],
-          video:   'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1779223125/Silo_qpgibh.mp4',
+          video:   'https://res.cloudinary.com/dn0t6obmx/video/upload/v1782835833/Adobe_Express_-_Brunch_1_hahyly.mp4',
           buttons: [{ label: 'Ver menú', type: 'external', url: 'https://menupp.co/silo' }],
           tip:     'Un desayuno alto en proteína te mantiene con energía estable durante toda la mañana.',
           appLink: null,
