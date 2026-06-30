@@ -10,6 +10,7 @@ import stretchImg from '../assets/Stretch-adn-Tone.webp'
 import baneraImg from '../assets/Banera.webp'
 import amQrImg from '../assets/AMRoutineMusic.png'
 import pmQrImg from '../assets/PMRoutineMusic.png'
+import agendaImg from '../assets/AgendaWB.webp'
 
 const QR_IMAGES = {
   'am-1': amQrImg,
@@ -61,6 +62,7 @@ export default function RoutineStep({ routine }) {
   }
 
   const [checked, setChecked] = useState({})
+  const [agendaOpen, setAgendaOpen] = useState(false)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const [amenityIdx, setAmenityIdx] = useState(0)
 
@@ -529,21 +531,36 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Botones externos del contenido */}
-          {step.buttons && step.buttons.some(b => b.type === 'external') && (
+          {/* Botones del contenido (external y agenda-modal) */}
+          {step.buttons && step.buttons.length > 0 && (
             <div className="space-y-2">
-              {step.buttons
-                .filter(b => b.type === 'external')
-                .map(b => (
-                  <button
-                    key={b.label}
-                    onClick={() => b.url && window.open(b.url, '_blank')}
-                    className="w-full py-3 font-montserrat text-sm font-medium tracking-wider uppercase transition-all active:scale-95"
-                    style={{ background: 'var(--black)', color: '#F1F0EB' }}
-                  >
-                    {b.label}
-                  </button>
-                ))}
+              {step.buttons.map(b => {
+                if (b.type === 'agenda-modal') {
+                  return (
+                    <button
+                      key={b.label}
+                      onClick={() => setAgendaOpen(true)}
+                      className="w-full py-3 font-montserrat text-sm font-medium tracking-wider uppercase transition-all active:scale-95"
+                      style={{ background: 'var(--black)', color: '#F1F0EB' }}
+                    >
+                      {b.label}
+                    </button>
+                  )
+                }
+                if (b.type === 'external') {
+                  return (
+                    <button
+                      key={b.label}
+                      onClick={() => b.url && window.open(b.url, '_blank')}
+                      className="w-full py-3 font-montserrat text-sm font-medium tracking-wider uppercase transition-all active:scale-95"
+                      style={{ background: 'var(--black)', color: '#F1F0EB' }}
+                    >
+                      {b.label}
+                    </button>
+                  )
+                }
+                return null
+              })}
             </div>
           )}
 
@@ -646,6 +663,34 @@ export default function RoutineStep({ routine }) {
       </div>
 
       <BottomNav active={routine} onNav={navGo} />
+
+      {/* ── Modal Agenda ── */}
+      {agendaOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ background: 'rgba(20,20,20,0.72)' }}
+          onClick={() => setAgendaOpen(false)}
+        >
+          <div
+            className="relative mx-6"
+            style={{ maxWidth: '680px', width: '100%' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setAgendaOpen(false)}
+              className="absolute font-mono-dm text-[11px] tracking-widest uppercase px-4 py-2 transition-all active:scale-95"
+              style={{ top: '-40px', right: 0, color: '#F1F0EB' }}
+            >
+              {ui.close}
+            </button>
+            <img
+              src={agendaImg}
+              alt="Agenda de clases"
+              style={{ width: '100%', display: 'block', objectFit: 'contain' }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
