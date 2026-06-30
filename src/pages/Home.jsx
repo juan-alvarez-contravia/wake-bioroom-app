@@ -17,8 +17,8 @@ import gbHatch from '../assets/WB-hatch.webp'
 
 const GADGET_CARDS = [
   { id: 'grounding-mat',   name: 'Grounding Mat',  img: gbMat },
-  { id: 'circadian-light', name: 'Luz Circadiana', img: gbLuzBlanca },
-  { id: 'diffuser',        name: 'Difusor',         img: gbAroma },
+  { id: 'circadian-light', name: 'Circadian Light Panel', img: gbLuzBlanca },
+  { id: 'diffuser',        name: 'Oil Diffuser',          img: gbAroma },
   { id: 'smartgoggles',    name: 'SmartGoggles',    img: gbGafas },
   { id: 'red-light',       name: 'Red Light',       img: gbLuzRoja },
   { id: 'dockpro',         name: 'DockPro',         img: gbColchon },
@@ -29,9 +29,10 @@ const ICON_WHITE = 'brightness(0) invert(1)'
 
 export default function Home() {
   const navigate = useNavigate()
-  const { getProgress } = useApp()
-  const amSteps = content.es.routineAM.steps
-  const pmSteps = content.es.routinePM.steps
+  const { lang, getProgress } = useApp()
+  const ui = content[lang].ui
+  const amSteps = content[lang].routineAM.steps
+  const pmSteps = content[lang].routinePM.steps
   const amProg = getProgress(amSteps)
   const pmProg = getProgress(pmSteps)
 
@@ -64,13 +65,13 @@ export default function Home() {
           className="font-lora text-3xl leading-tight mb-2"
           style={{ color: 'var(--black)', fontWeight: 400 }}
         >
-          TU RUTINA DE BIENESTAR EMPIEZA AQUÍ
+          {ui.heroTitle}
         </h1>
         <p
           className="text-sm"
           style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: 'var(--muted)' }}
         >
-          Elige el momento del día para comenzar
+          {ui.heroSubtitle}
         </p>
       </div>
 
@@ -86,23 +87,20 @@ export default function Home() {
             className="p-4 flex flex-col justify-between text-left transition-all duration-200 active:scale-[0.97] relative overflow-hidden"
             style={{ minHeight: '210px' }}
           >
-            {/* Imagen de fondo */}
             <img
               src={wbDiaImg}
               alt=""
               className="absolute inset-0 w-full h-full pointer-events-none"
               style={{ objectFit: 'cover', objectPosition: 'center center' }}
             />
-            {/* Overlay oscuro */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{ background: 'rgba(10,10,10,0.42)' }}
             />
-            {/* Contenido */}
             <div className="relative z-10">
               <img
                 src={domSvg}
-                alt="Mañana"
+                alt=""
                 style={{
                   width: '26px', height: '26px',
                   filter: ICON_WHITE,
@@ -114,13 +112,13 @@ export default function Home() {
                 className="font-lora text-sm leading-snug mb-1"
                 style={{ color: '#F1F0EB', fontWeight: 300 }}
               >
-                RUTINA DE LA MAÑANA
+                {ui.amCardTitle}
               </div>
               <div
                 className="font-montserrat text-[9px] tracking-wider uppercase"
                 style={{ color: 'rgba(241,240,235,0.65)' }}
               >
-                5 pasos · 45–60 min
+                {ui.amDuration}
               </div>
             </div>
             <div className="relative z-10 w-full">
@@ -134,23 +132,20 @@ export default function Home() {
             className="p-4 flex flex-col justify-between text-left transition-all duration-200 active:scale-[0.97] relative overflow-hidden"
             style={{ minHeight: '210px' }}
           >
-            {/* Imagen de fondo */}
             <img
               src={wbNocheImg}
               alt=""
               className="absolute inset-0 w-full h-full pointer-events-none"
               style={{ objectFit: 'cover', objectPosition: 'center center' }}
             />
-            {/* Overlay oscuro */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{ background: 'rgba(10,10,10,0.42)' }}
             />
-            {/* Contenido */}
             <div className="relative z-10">
               <img
                 src={lunaSvg}
-                alt="Noche"
+                alt=""
                 style={{
                   width: '24px', height: '24px',
                   filter: ICON_WHITE,
@@ -162,13 +157,13 @@ export default function Home() {
                 className="font-lora text-sm leading-snug mb-1"
                 style={{ color: '#F1F0EB', fontWeight: 400 }}
               >
-                RUTINA EN LA NOCHE
+                {ui.pmCardTitle}
               </div>
               <div
                 className="font-montserrat text-[9px] tracking-wider uppercase"
                 style={{ color: 'rgba(241,240,235,0.65)' }}
               >
-                7 pasos · 60–90 min
+                {ui.pmDuration}
               </div>
             </div>
             <div className="relative z-10 w-full">
@@ -184,7 +179,7 @@ export default function Home() {
             className="font-montserrat text-[10px] tracking-widest uppercase mb-3"
             style={{ color: 'var(--muted)' }}
           >
-            Gadgets de la BioRoom
+            {ui.gadgetsLabel}
           </div>
           <div
             className="flex gap-3 pb-1"
@@ -234,14 +229,14 @@ export default function Home() {
           style={{ border: '1px solid var(--border)', background: 'var(--surface)' }}
         >
           <p className="font-montserrat text-sm leading-snug" style={{ color: 'var(--black)', maxWidth: '62%' }}>
-            <span style={{ fontWeight: 600 }}>¿Quieres más?</span> Conoce los complementos que tenemos para ti
+            <span style={{ fontWeight: 600 }}>{ui.ctaTitle}</span> {ui.ctaText}
           </p>
           <button
             onClick={() => navigate('/complementos')}
             className="font-mono-dm text-[10px] tracking-widest uppercase px-4 py-2 transition-all active:scale-95 shrink-0"
             style={{ background: 'var(--green)', color: '#F1F0EB' }}
           >
-            Ver Complementos
+            {ui.ctaBtn}
           </button>
         </div>
 
@@ -251,7 +246,7 @@ export default function Home() {
             className="font-montserrat text-[10px] tracking-widest uppercase mb-3"
             style={{ color: '#000' }}
           >
-            Actividades de bienestar realizadas
+            {ui.progressLabel}
           </div>
           <ProgressBar
             done={amProg.done + pmProg.done}
@@ -259,14 +254,23 @@ export default function Home() {
           />
         </div>
 
-        {/* Help link */}
-        <button
-          onClick={() => navigate('/ayuda')}
-          className="w-full py-3 flex items-center justify-center font-mono-dm text-[10px] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
-          style={{ color: 'var(--muted)', borderTop: '1px solid var(--border)' }}
-        >
-          ¿Necesitas ayuda?
-        </button>
+        {/* Links: help + language */}
+        <div className="flex items-center justify-between" style={{ borderTop: '1px solid var(--border)' }}>
+          <button
+            onClick={() => navigate('/ayuda')}
+            className="py-3 font-mono-dm text-[10px] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
+            style={{ color: 'var(--muted)' }}
+          >
+            {ui.helpLink}
+          </button>
+          <button
+            onClick={() => navigate('/idioma')}
+            className="py-3 font-mono-dm text-[10px] tracking-widest uppercase transition-all duration-200 active:scale-[0.98]"
+            style={{ color: 'var(--muted)' }}
+          >
+            {ui.languageLink}
+          </button>
+        </div>
       </div>
 
       <BottomNav active="home" onNav={navGo} />

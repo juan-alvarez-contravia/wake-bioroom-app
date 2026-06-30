@@ -4,14 +4,15 @@ import { useApp } from '../context/AppContext'
 import { BackBtn, BtnPrimary, BottomNav } from '../components/UI'
 
 const LANGUAGES = [
-  { code: 'es', label: 'Español', flag: '🇨🇴' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'es', label: 'Español' },
+  { code: 'en', label: 'English' },
 ]
 
 export default function Language() {
   const navigate = useNavigate()
   const { lang, setLang } = useApp()
-  const c = content.es.language
+  const c = content[lang].language
+  const ui = content[lang].ui
 
   const navGo = (id) => {
     const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
@@ -26,7 +27,7 @@ export default function Language() {
         <h1 className="font-lora text-3xl font-bold leading-tight mb-1" style={{ color: 'var(--black)' }}>
           {c.title}
         </h1>
-        <p className="font-sans text-sm" style={{ color: 'var(--muted)' }}>{c.subtitle}</p>
+        <p className="font-montserrat text-sm" style={{ color: 'var(--muted)' }}>{c.subtitle}</p>
       </div>
 
       <div className="space-y-3 mb-8">
@@ -40,8 +41,7 @@ export default function Language() {
               border: `1px solid ${lang === l.code ? 'var(--green)' : 'var(--border)'}`,
             }}
           >
-            <span className="text-2xl">{l.flag}</span>
-            <span className="font-sans text-base font-medium flex-1" style={{ color: 'var(--black)' }}>
+            <span className="font-montserrat text-base font-medium flex-1" style={{ color: 'var(--black)' }}>
               {l.label}
             </span>
             {lang === l.code && (
@@ -56,9 +56,9 @@ export default function Language() {
         ))}
       </div>
 
-      <p className="font-sans text-xs mb-6" style={{ color: 'var(--muted)' }}>{c.tip}</p>
+      <p className="font-montserrat text-xs mb-6" style={{ color: 'var(--muted)' }}>{c.tip}</p>
 
-      <BtnPrimary onClick={() => navigate('/home')}>Confirmar</BtnPrimary>
+      <BtnPrimary onClick={() => navigate('/home')}>{ui.confirmLang}</BtnPrimary>
 
       <BottomNav active="home" onNav={navGo} />
     </div>

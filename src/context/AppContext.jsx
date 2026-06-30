@@ -3,11 +3,15 @@ import { createContext, useContext, useState, useEffect } from 'react'
 const AppContext = createContext()
 
 export function AppProvider({ children }) {
-  const [lang, setLang] = useState('es')
+  const [lang, setLang] = useState(() => localStorage.getItem('wake_lang') || 'es')
   const [completedSteps, setCompletedSteps] = useState(() => {
     const saved = localStorage.getItem('wake_completed_steps')
     return saved ? JSON.parse(saved) : {}
   })
+
+  useEffect(() => {
+    localStorage.setItem('wake_lang', lang)
+  }, [lang])
 
   useEffect(() => {
     localStorage.setItem('wake_completed_steps', JSON.stringify(completedSteps))

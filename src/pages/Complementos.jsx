@@ -1,20 +1,15 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { content } from '../data/content'
+import { useApp } from '../context/AppContext'
 import { BackBtn, SectionLabel, BottomNav } from '../components/UI'
 import qrFrontImg from '../assets/QR-Front.png'
 
-const COMPLEMENTOS = [
-  { id: 'funda-seda',     name: 'Funda de seda para almohada', tag: 'Renta', price: '$400.000 COP' },
-  { id: 'manta-peso',     name: 'Manta con peso',              tag: 'Renta', price: '$100.000 COP' },
-  { id: 'tapa-oidos',     name: 'Tapaoídos',                   tag: null,    price: '$130.000 COP' },
-  { id: 'gafas-luz-azul', name: 'Gafas de bloqueo de luz azul', tag: null,   price: '$219.000 COP' },
-  { id: 'cinta-boca',     name: 'Cinta para la boca',          tag: null,    price: '$39.000 COP'  },
-  { id: 'cinta-nariz',    name: 'Cinta para nariz',            tag: null,    price: '$72.000 COP'  },
-  { id: 'antifaz',        name: 'Antifaz para dormir',         tag: null,    price: '$175.000 COP' },
-]
-
 export default function Complementos() {
   const navigate = useNavigate()
+  const { lang } = useApp()
+  const ui = content[lang].ui
+  const items = content[lang].complementos
   const [selected, setSelected] = useState(null)
 
   const navGo = (id) => {
@@ -29,12 +24,12 @@ export default function Complementos() {
       <div style={{ paddingLeft: '40px', paddingRight: '40px', paddingTop: '48px', paddingBottom: '24px', borderBottom: '1px solid var(--border)' }}>
         <BackBtn onClick={() => navigate('/home')} />
         <div className="mt-4">
-          <SectionLabel>Complementos</SectionLabel>
+          <SectionLabel>{ui.compSection}</SectionLabel>
           <h1 className="font-lora text-2xl leading-tight mb-2" style={{ color: 'var(--black)', fontWeight: 400 }}>
-            Eleva tu experiencia de sueño
+            {ui.compHero}
           </h1>
           <p className="font-montserrat text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
-            Tenemos una selección para recargar y elevar tu experiencia en sueño
+            {ui.compDesc}
           </p>
         </div>
       </div>
@@ -43,11 +38,11 @@ export default function Complementos() {
       <div style={{ paddingLeft: '40px', paddingRight: '40px', paddingTop: '24px' }}>
 
         <div className="font-montserrat text-sm mb-4" style={{ color: 'var(--black)' }}>
-          Conoce los complementos que puedes comprar:
+          {ui.compIntro}
         </div>
 
         <div>
-          {COMPLEMENTOS.map((c) => (
+          {items.map((c) => (
             <div
               key={c.id}
               className="flex items-center justify-between py-4"
@@ -77,7 +72,7 @@ export default function Complementos() {
                 className="font-mono-dm text-[10px] tracking-widest uppercase px-4 py-2 transition-all active:scale-95 shrink-0"
                 style={{ background: 'var(--green)', color: '#F1F0EB' }}
               >
-                Adquirir
+                {ui.acquire}
               </button>
             </div>
           ))}
@@ -85,7 +80,7 @@ export default function Complementos() {
 
         {/* Nota de disponibilidad */}
         <p className="font-montserrat text-xs mt-5 text-center" style={{ color: 'var(--muted)' }}>
-          *Sujeto a disponibilidad
+          {ui.availability}
         </p>
       </div>
 
@@ -110,7 +105,7 @@ export default function Complementos() {
                 className="font-mono-dm text-[10px] tracking-widest uppercase"
                 style={{ color: 'var(--muted)' }}
               >
-                × Cerrar
+                {ui.close}
               </button>
             </div>
 
@@ -121,7 +116,7 @@ export default function Complementos() {
 
             {/* Instrucción */}
             <p className="font-montserrat text-sm leading-relaxed text-center mb-8" style={{ color: 'var(--muted)' }}>
-              Lee el QR con tu teléfono y solicita a nuestro personal tu{' '}
+              {ui.qrInstruction}{' '}
               <span style={{ color: 'var(--black)' }}>{selected.name.toLowerCase()}</span>
             </p>
 

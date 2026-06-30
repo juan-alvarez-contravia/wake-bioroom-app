@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { content } from '../data/content'
+import { useApp } from '../context/AppContext'
 import { SectionLabel, Tag, BottomNav } from '../components/UI'
 import imgMat from '../assets/WB-mat.webp'
 import imgLuzBlanca from '../assets/WB-luz-blanca.webp'
@@ -21,7 +22,9 @@ const GADGET_IMAGES = {
 
 export default function Gadgets() {
   const navigate = useNavigate()
-  const c = content.es.gadgets
+  const { lang } = useApp()
+  const ui = content[lang].ui
+  const c = content[lang].gadgets
 
   const navGo = (id) => {
     const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
@@ -33,7 +36,7 @@ export default function Gadgets() {
       {/* Header */}
       <div className="px-6 pt-12 pb-6" style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-2" style={{ color: 'var(--red)' }}>
-          GADGETS
+          {ui.gadgetsModule}
         </div>
         <h1 className="font-lora text-3xl font-light leading-tight mb-1" style={{ color: 'var(--black)' }}>
           {c.gallery.title}
@@ -43,7 +46,7 @@ export default function Gadgets() {
 
       {/* Gadget cards */}
       <div className="px-6 pt-6 space-y-3">
-        <SectionLabel>CONOCE LOS GADGETS DE TU BIOROOM</SectionLabel>
+        <SectionLabel>{ui.gadgetsSection}</SectionLabel>
         {c.items.map(gadget => (
           <button
             key={gadget.id}
@@ -52,12 +55,12 @@ export default function Gadgets() {
             style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}
           >
             <div style={{ width: '56px', height: '56px', flexShrink: 0, overflow: 'hidden', background: '#E8E7E1' }}>
-                <img
-                  src={GADGET_IMAGES[gadget.id]}
-                  alt={gadget.name}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                />
-              </div>
+              <img
+                src={GADGET_IMAGES[gadget.id]}
+                alt={gadget.name}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
             <div className="flex-1 min-w-0">
               <div className="font-lora text-base font-light mb-0.5" style={{ color: 'var(--black)' }}>
                 {gadget.name}
@@ -69,7 +72,7 @@ export default function Gadgets() {
                 {gadget.tags.map(t => <Tag key={t}>{t}</Tag>)}
               </div>
             </div>
-            <span className="flex-shrink-0" style={{ color: 'var(--border)' }}>→</span>
+            <span className="shrink-0" style={{ color: 'var(--border)' }}>→</span>
           </button>
         ))}
       </div>

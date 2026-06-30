@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { content } from '../data/content'
+import { useApp } from '../context/AppContext'
 import {
   BackBtn, SectionLabel, BenefitItem, CheckItem,
   WarningBox, TipBox, BtnAppLink, Tag, BottomNav,
@@ -25,7 +26,7 @@ const GADGET_IMAGES = {
 
 const GADGET_STEPS = {
   'grounding-mat':   { am: 6,  pm: 4  },
-  'circadian-light': { am: 4              },
+  'circadian-light': { am: 4          },
   'diffuser':        { am: 5,  pm: 3  },
   'smartgoggles':    { am: 7,  pm: 8  },
   'red-light':       { am: 6,  pm: 4  },
@@ -36,7 +37,9 @@ const GADGET_STEPS = {
 export default function GadgetDetail() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const gadget = content.es.gadgets.items.find(g => g.id === id)
+  const { lang } = useApp()
+  const ui = content[lang].ui
+  const gadget = content[lang].gadgets.items.find(g => g.id === id)
   const [checked, setChecked] = useState({})
   const toggleChecked = (i) => setChecked(prev => ({ ...prev, [i]: !prev[i] }))
 
@@ -49,6 +52,8 @@ export default function GadgetDetail() {
     navigate('/gadgets')
     return null
   }
+
+  const routineBtnLabel = (r) => r === 'am' ? ui.routineBtnAM : ui.routineBtnPM
 
   return (
     <div className="min-h-screen pb-28" style={{ background: 'var(--bg)' }}>
@@ -91,7 +96,7 @@ export default function GadgetDetail() {
                 className={`routine-btn routine-btn-${r} inline-block px-4 py-2 font-mono-dm text-[10px] tracking-wider uppercase transition-all active:scale-95`}
                 style={{ position: 'relative', overflow: 'hidden', border: '1px solid var(--green)', color: '#111', background: '#D0CEC6' }}
               >
-                <span style={{ position: 'relative', zIndex: 1 }}>Ver en Rutina {r.toUpperCase()}</span>
+                <span style={{ position: 'relative', zIndex: 1 }}>{routineBtnLabel(r)}</span>
                 <span className={`shimmer-${r}`} style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }} />
               </button>
             ))}
@@ -119,7 +124,7 @@ export default function GadgetDetail() {
           `}</style>
 
           {/* ¿Qué es? */}
-          <SectionLabel>¿Qué es?</SectionLabel>
+          <SectionLabel>{ui.whatIs}</SectionLabel>
           <p className="font-montserrat text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
             {gadget.whatIs}
           </p>
@@ -135,7 +140,7 @@ export default function GadgetDetail() {
         <div style={{ flex: 1, paddingRight: '28px' }}>
           {gadget.benefits && gadget.benefits.length > 0 && (
             <>
-              <SectionLabel>Beneficios</SectionLabel>
+              <SectionLabel>{ui.benefits}</SectionLabel>
               {gadget.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
             </>
           )}
@@ -148,7 +153,7 @@ export default function GadgetDetail() {
         <div style={{ flex: 1, paddingLeft: '28px' }}>
           {gadget.steps && gadget.steps.length > 0 && (
             <>
-              <SectionLabel>Cómo usarlo</SectionLabel>
+              <SectionLabel>{ui.howToUse}</SectionLabel>
               {gadget.steps.map((s, i) => (
                 <CheckItem key={i} text={s} checked={!!checked[i]} onToggle={() => toggleChecked(i)} />
               ))}
@@ -165,7 +170,7 @@ export default function GadgetDetail() {
         {/* Modos */}
         {gadget.modes && (
           <div>
-            <SectionLabel>Modos</SectionLabel>
+            <SectionLabel>{ui.modes}</SectionLabel>
             <div className="space-y-2">
               {gadget.modes.map(m => (
                 <div
@@ -178,7 +183,7 @@ export default function GadgetDetail() {
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <span className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{m.name}</span>
-                    {m.recommended && <Tag color="green">Recomendado</Tag>}
+                    {m.recommended && <Tag color="green">{ui.recommended}</Tag>}
                   </div>
                   <p className="font-montserrat text-xs" style={{ color: 'var(--muted)' }}>{m.desc}</p>
                 </div>
@@ -190,7 +195,7 @@ export default function GadgetDetail() {
         {/* Temperaturas */}
         {gadget.temperatures && (
           <div>
-            <SectionLabel>Temperaturas</SectionLabel>
+            <SectionLabel>{ui.tempLabel}</SectionLabel>
             <div className="space-y-2">
               {gadget.temperatures.map(t => (
                 <div
@@ -206,7 +211,7 @@ export default function GadgetDetail() {
                   </div>
                   <div>
                     <div className="font-montserrat text-sm font-medium" style={{ color: 'var(--black)' }}>{t.label}</div>
-                    {t.recommended && <div className="mt-1"><Tag color="green">Recomendado</Tag></div>}
+                    {t.recommended && <div className="mt-1"><Tag color="green">{ui.recommended}</Tag></div>}
                   </div>
                 </div>
               ))}
@@ -217,7 +222,7 @@ export default function GadgetDetail() {
         {/* Fases */}
         {gadget.phases && (
           <div>
-            <SectionLabel>Fases</SectionLabel>
+            <SectionLabel>{ui.phasesLabel}</SectionLabel>
             <div className="space-y-2">
               {gadget.phases.map(ph => (
                 <div
@@ -233,7 +238,7 @@ export default function GadgetDetail() {
           </div>
         )}
 
-        {/* Tip / Recomendación */}
+        {/* Recomendación */}
         {gadget.recommendation && <TipBox>{gadget.recommendation}</TipBox>}
 
         {/* Advertencia */}

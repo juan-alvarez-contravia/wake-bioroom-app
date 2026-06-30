@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { content } from '../data/content'
+import { useApp } from '../context/AppContext'
 import logoBio from '../assets/Logo-bio-blanco-full.webp'
 import manchaImg from '../assets/mancha.webp'
 
@@ -10,7 +11,8 @@ export default function Splash() {
   const [exiting, setExiting] = useState(false)
   const [bouncing, setBouncing] = useState(false)
   const navigate = useNavigate()
-  const c = content.es.splash
+  const { lang } = useApp()
+  const c = content[lang].splash
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 120)
@@ -38,7 +40,7 @@ export default function Splash() {
       animate={{ opacity: exiting ? 0 : 1 }}
       transition={{ duration: 0.48, ease: 'easeInOut' }}
     >
-      {/* ── Mancha decorativa — centrada, pantalla completa ── */}
+      {/* ── Mancha decorativa ── */}
       <img
         src={manchaImg}
         alt=""

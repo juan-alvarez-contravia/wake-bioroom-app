@@ -7,8 +7,9 @@ import lunaSvg from '../assets/luna.svg'
 
 export default function RoutineIntro({ routine }) {
   const navigate = useNavigate()
-  const { getProgress, isCompleted } = useApp()
-  const routineData = routine === 'am' ? content.es.routineAM : content.es.routinePM
+  const { lang, getProgress, isCompleted } = useApp()
+  const ui = content[lang].ui
+  const routineData = routine === 'am' ? content[lang].routineAM : content[lang].routinePM
   const { intro, steps } = routineData
   const prog = getProgress(steps)
 
@@ -29,7 +30,7 @@ export default function RoutineIntro({ routine }) {
         <div className="mt-6">
           <img
             src={routine === 'am' ? domSvg : lunaSvg}
-            alt={routine === 'am' ? 'Mañana' : 'Noche'}
+            alt={routine}
             style={{ width: '30px', height: '30px', opacity: 0.55, marginBottom: '14px' }}
           />
           <h1
@@ -44,7 +45,7 @@ export default function RoutineIntro({ routine }) {
           >
             {intro.subtitle}
           </p>
-          <p className="font-sans text-sm leading-relaxed mb-5" style={{ color: 'var(--muted)' }}>
+          <p className="font-montserrat text-sm leading-relaxed mb-5" style={{ color: 'var(--muted)' }}>
             {intro.description}
           </p>
           <ProgressBar done={prog.done} total={prog.total} />
@@ -53,7 +54,7 @@ export default function RoutineIntro({ routine }) {
 
       {/* Steps list */}
       <div className="pt-6 space-y-2" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
-        <SectionLabel>Empecemos con tu rutina</SectionLabel>
+        <SectionLabel>{ui.startSection}</SectionLabel>
         {steps.map((step, i) => {
           const done = isCompleted(step.id)
           return (
@@ -100,11 +101,11 @@ export default function RoutineIntro({ routine }) {
       {/* CTA */}
       <div className="pt-6 space-y-3" style={{ paddingLeft: '40px', paddingRight: '40px' }}>
         <BtnPrimary onClick={() => navigate(`/${routine}/paso/1`)}>
-          {prog.done === 0 ? intro.cta : 'Continuar Rutina'}
+          {prog.done === 0 ? intro.cta : ui.continueRoutine}
         </BtnPrimary>
         {prog.done === prog.total && prog.total > 0 && (
           <BtnSecondary onClick={() => navigate(`/${routine}/completa`)}>
-            Ver resumen completo
+            {ui.viewSummary}
           </BtnSecondary>
         )}
       </div>

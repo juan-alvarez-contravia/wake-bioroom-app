@@ -8,14 +8,15 @@ import lunaSvg from '../assets/luna.svg'
 
 export default function RoutineComplete({ routine }) {
   const navigate = useNavigate()
-  const { getProgress, resetRoutine, isCompleted } = useApp()
+  const { lang, getProgress, resetRoutine, isCompleted } = useApp()
+  const ui = content[lang].ui
 
   const navGo = (id) => {
     const map = { home: '/home', am: '/am', pm: '/pm', gadgets: '/gadgets', help: '/ayuda' }
     navigate(map[id] || '/home')
   }
 
-  const routineData = routine === 'am' ? content.es.routineAM : content.es.routinePM
+  const routineData = routine === 'am' ? content[lang].routineAM : content[lang].routinePM
   const { completed, steps } = routineData
   const prog = getProgress(steps)
 
@@ -53,7 +54,7 @@ export default function RoutineComplete({ routine }) {
           className="font-montserrat text-[10px] tracking-widest uppercase mb-3"
           style={{ color: 'var(--green)' }}
         >
-          {prog.done} / {prog.total} pasos completados
+          {prog.done} / {prog.total} {ui.stepsCompleted}
         </div>
 
         <h1
@@ -89,7 +90,7 @@ export default function RoutineComplete({ routine }) {
         transition={{ duration: 0.4, delay: 0.35 }}
         className="mt-8 mb-6"
       >
-        <SectionLabel>Resumen</SectionLabel>
+        <SectionLabel>{ui.summary}</SectionLabel>
         <div>
           {steps.map(step => {
             const done = isCompleted(step.id)
@@ -100,13 +101,13 @@ export default function RoutineComplete({ routine }) {
                 style={{ borderBottom: '1px solid var(--border)' }}
               >
                 <div
-                  className="w-5 h-5 rounded-sm flex items-center justify-center flex-shrink-0"
+                  className="w-5 h-5 rounded-sm flex items-center justify-center shrink-0"
                   style={{ background: done ? 'var(--green)' : 'var(--border)' }}
                 >
                   {done && <span className="text-white text-xs">✓</span>}
                 </div>
                 <span
-                  className="font-montserrat "
+                  className="font-montserrat"
                   style={{ color: done ? 'var(--black)' : 'var(--muted)' }}
                 >
                   {step.title}
@@ -124,7 +125,6 @@ export default function RoutineComplete({ routine }) {
         transition={{ duration: 0.4, delay: 0.55 }}
         className="space-y-3"
       >
-        {/* 50/50: Inicio | Rutina PM o Gadgets */}
         <div className="flex gap-2">
           <button
             onClick={() => navigate('/home')}
@@ -144,13 +144,12 @@ export default function RoutineComplete({ routine }) {
           )}
         </div>
 
-        {/* Reiniciar */}
         <button
           onClick={handleReset}
           className="w-full py-3 font-montserrat text-[10px] tracking-widest uppercase"
           style={{ color: 'var(--muted)' }}
         >
-          Reiniciar rutina
+          {ui.restartRoutine}
         </button>
       </motion.div>
 

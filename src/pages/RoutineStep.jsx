@@ -47,9 +47,11 @@ const AMENITY_IMAGES = {
 export default function RoutineStep({ routine }) {
   const navigate = useNavigate()
   const { step: stepParam } = useParams()
-  const { toggleStep, isCompleted } = useApp()
+  const { lang, toggleStep, isCompleted } = useApp()
+  const ui = content[lang].ui
 
-  const steps = routine === 'am' ? content.es.routineAM.steps : content.es.routinePM.steps
+  const routineData = routine === 'am' ? content[lang].routineAM : content[lang].routinePM
+  const steps = routineData.steps
   const stepIndex = parseInt(stepParam, 10) - 1
   const step = steps[stepIndex]
 
@@ -113,7 +115,7 @@ export default function RoutineStep({ routine }) {
             className="font-mono-dm text-[11px] tracking-widest uppercase py-2"
             style={{ color: 'var(--muted)' }}
           >
-            Ver todos los pasos →
+            {ui.allSteps}
           </button>
         </div>
         <div className="mt-4">
@@ -176,7 +178,7 @@ export default function RoutineStep({ routine }) {
                 <span style={{ color: 'var(--muted)', fontSize: '18px', marginLeft: '3px' }}>&#9654;</span>
               </div>
               <span className="font-mono-dm text-[10px] tracking-widest uppercase" style={{ color: 'var(--muted)' }}>
-                Video próximamente
+                {ui.videoSoon}
               </span>
             </div>
           ) : (
@@ -232,7 +234,7 @@ export default function RoutineStep({ routine }) {
           {step.qrImage && QR_IMAGES[step.id] && (
             <div>
               <div className="font-mono-dm text-[10px] tracking-widest uppercase mb-3" style={{ color: 'var(--muted)' }}>
-                Escanea para abrir la playlist
+                {ui.scanQr}
               </div>
               <img
                 src={QR_IMAGES[step.id]}
@@ -242,7 +244,7 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Pending note (SILO pm-5) */}
+          {/* Pending note */}
           {step.pending && (
             <div
               className="px-4 py-3 text-sm leading-relaxed italic"
@@ -252,13 +254,13 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Nota de alerta (Cena PM) */}
+          {/* Nota de alerta */}
           {step.note && <WarningBox>{step.note}</WarningBox>}
 
           {/* Modos disponibles (SmartGoggles PM) */}
           {step.modes && (
             <div>
-              <SectionLabel>Terapias recomendadas</SectionLabel>
+              <SectionLabel>{ui.therapies}</SectionLabel>
               <div className="space-y-2">
                 {step.modes.map(m => (
                   <div
@@ -271,7 +273,7 @@ export default function RoutineStep({ routine }) {
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-montserrat text-sm font-semibold" style={{ color: 'var(--black)' }}>{m.name}</span>
-                      {m.recommended && <Tag color="green">Recomendado</Tag>}
+                      {m.recommended && <Tag color="green">{ui.recommended}</Tag>}
                     </div>
                     <p className="font-montserrat text-xs" style={{ color: 'var(--muted)' }}>{m.desc}</p>
                   </div>
@@ -280,10 +282,10 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Temperaturas (DockPro) */}
+          {/* Temperaturas (GadgetDetail DockPro) */}
           {step.temperatures && (
             <div>
-              <SectionLabel>Temperaturas</SectionLabel>
+              <SectionLabel>{ui.temperatures}</SectionLabel>
               <div className="space-y-2">
                 {step.temperatures.map(t => (
                   <div
@@ -300,7 +302,7 @@ export default function RoutineStep({ routine }) {
                     <div className="flex-1">
                       <div className="font-montserrat text-sm font-medium" style={{ color: 'var(--black)' }}>{t.label}</div>
                       {t.desc && <div className="font-montserrat text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{t.desc}</div>}
-                      {t.recommended && <div className="mt-1"><Tag color="green">Recomendado</Tag></div>}
+                      {t.recommended && <div className="mt-1"><Tag color="green">{ui.recommended}</Tag></div>}
                     </div>
                   </div>
                 ))}
@@ -311,7 +313,7 @@ export default function RoutineStep({ routine }) {
           {/* Fases (Hatch) */}
           {step.phases && (
             <div>
-              <SectionLabel>Fases de la noche</SectionLabel>
+              <SectionLabel>{ui.nightPhases}</SectionLabel>
               <div className="space-y-2">
                 {step.phases.map(ph => (
                   <div
@@ -329,10 +331,10 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Opciones de uso (Grounding + Red Light) */}
+          {/* Opciones de uso */}
           {step.options && (
             <div>
-              <SectionLabel>Opciones de uso</SectionLabel>
+              <SectionLabel>{ui.usageOptions}</SectionLabel>
               <div className="space-y-2">
                 {step.options.map(o => (
                   <div key={o.name}>
@@ -352,7 +354,7 @@ export default function RoutineStep({ routine }) {
           {/* Macronutrientes (Desayuno en Silo) */}
           {step.macros && (
             <div>
-              <SectionLabel>Macronutrientes</SectionLabel>
+              <SectionLabel>{ui.macros}</SectionLabel>
               <div className="space-y-2">
                 {step.macros.map(m => (
                   <div key={m.name} className="p-3" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
@@ -367,7 +369,7 @@ export default function RoutineStep({ routine }) {
           {/* Tecnología disponible (Sastra) */}
           {step.features && (
             <div>
-              <SectionLabel>Tecnología disponible</SectionLabel>
+              <SectionLabel>{ui.techAvailable}</SectionLabel>
               <div>
                 {step.features.map(f => (
                   <div
@@ -383,13 +385,13 @@ export default function RoutineStep({ routine }) {
             </div>
           )}
 
-          {/* Instalaciones — carrusel (am-8) */}
+          {/* Instalaciones — carrusel (am-8 / pm-5) */}
           {step.amenitiesCarousel && step.amenities && (() => {
             const a = step.amenities[amenityIdx]
-            const img = AMENITY_IMAGES[a.name]
+            const img = AMENITY_IMAGES[a.imageKey || a.name]
             return (
               <div>
-                <SectionLabel>Instalaciones</SectionLabel>
+                <SectionLabel>{ui.facilities}</SectionLabel>
                 <div key={amenityIdx} style={{ animation: 'fadeIn 0.4s ease' }}>
                   {img ? (
                     <div style={{ width: '100%', height: '250px', overflow: 'hidden', marginBottom: '14px', background: 'var(--card)' }}>
@@ -411,7 +413,7 @@ export default function RoutineStep({ routine }) {
                     className="flex items-center gap-2 font-mono-dm text-[10px] tracking-widest uppercase transition-all active:scale-95"
                     style={{ color: 'var(--muted)' }}
                   >
-                    ← Anterior
+                    {ui.prevAmenity}
                   </button>
                   <span className="font-mono-dm text-[10px] tracking-widest" style={{ color: 'var(--muted)' }}>
                     {amenityIdx + 1} / {step.amenities.length}
@@ -421,7 +423,7 @@ export default function RoutineStep({ routine }) {
                     className="flex items-center gap-2 font-mono-dm text-[10px] tracking-widest uppercase transition-all active:scale-95"
                     style={{ color: 'var(--green)' }}
                   >
-                    Siguiente →
+                    {ui.nextAmenity}
                   </button>
                 </div>
               </div>
@@ -431,7 +433,7 @@ export default function RoutineStep({ routine }) {
           {/* Instalaciones — tarjetas (otros pasos con amenities) */}
           {step.amenities && !step.amenitiesCarousel && (
             <div>
-              <SectionLabel>Instalaciones</SectionLabel>
+              <SectionLabel>{ui.facilities}</SectionLabel>
               <div className="space-y-2">
                 {step.amenities.map(a => (
                   <div
@@ -441,7 +443,7 @@ export default function RoutineStep({ routine }) {
                   >
                     <div style={{ width: '90px', height: '90px', flexShrink: 0, background: 'var(--card)', overflow: 'hidden' }}>
                       <img
-                        src={a.image || AMENITY_IMAGES[a.name] || ''}
+                        src={a.image || AMENITY_IMAGES[a.imageKey || a.name] || ''}
                         alt={a.name}
                         style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                       />
@@ -462,7 +464,7 @@ export default function RoutineStep({ routine }) {
           {/* Tarjetas de temperatura en 3 columnas (DockPro) */}
           {step.temperatureCards && (
             <div>
-              <SectionLabel>Temperaturas recomendadas</SectionLabel>
+              <SectionLabel>{ui.temperatureCards}</SectionLabel>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
                 {step.temperatureCards.map(t => (
                   <div
@@ -480,7 +482,7 @@ export default function RoutineStep({ routine }) {
                     <div className="font-montserrat text-xs leading-snug" style={{ color: 'var(--muted)' }}>
                       {t.label}
                     </div>
-                    {t.recommended && <div className="mt-2"><Tag color="green">Recomendado</Tag></div>}
+                    {t.recommended && <div className="mt-2"><Tag color="green">{ui.recommended}</Tag></div>}
                   </div>
                 ))}
               </div>
@@ -492,10 +494,10 @@ export default function RoutineStep({ routine }) {
             <BtnAppLink label={step.appLink.label} scheme={step.appLink.scheme} />
           )}
 
-          {/* Aromaterapia roll-on (Difusor am-5) */}
+          {/* Aromaterapia roll-on */}
           {step.aromatherapy && (
             <div>
-              <SectionLabel>Aromaterapia</SectionLabel>
+              <SectionLabel>{ui.aromatherapy}</SectionLabel>
               <div className="p-4" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
                 <div className="font-montserrat text-sm font-semibold mb-2" style={{ color: 'var(--black)' }}>
                   {step.aromatherapy.title}
@@ -515,7 +517,7 @@ export default function RoutineStep({ routine }) {
           {/* Cómo usarlo — checklist */}
           {step.steps && step.steps.length > 0 && (
             <div>
-              <SectionLabel>Cómo usarlo</SectionLabel>
+              <SectionLabel>{ui.howToUse}</SectionLabel>
               {step.steps.map((s, i) => (
                 <CheckItem
                   key={i}
@@ -554,7 +556,7 @@ export default function RoutineStep({ routine }) {
         {/* Beneficios — dos columnas si hay benefitGroups (am-6) */}
         {step.benefitGroups ? (
           <div>
-            <SectionLabel>Beneficios</SectionLabel>
+            <SectionLabel>{ui.benefits}</SectionLabel>
             <div className="flex items-start" style={{ gap: 0 }}>
               {step.benefitGroups.map((group, gi) => (
                 <>
@@ -573,7 +575,7 @@ export default function RoutineStep({ routine }) {
           </div>
         ) : step.benefits && step.benefits.length > 0 ? (
           <div>
-            <SectionLabel>Beneficios</SectionLabel>
+            <SectionLabel>{ui.benefits}</SectionLabel>
             {step.benefits.map((b, i) => <BenefitItem key={i} text={b} />)}
           </div>
         ) : null}
@@ -604,7 +606,7 @@ export default function RoutineStep({ routine }) {
                   <span className="text-white text-xs">✓</span>
                 </div>
                 <span className="font-mono-dm text-[11px] tracking-wide uppercase" style={{ color: 'var(--green)' }}>
-                  Completado
+                  {ui.completed}
                 </span>
               </div>
               <button
@@ -612,7 +614,7 @@ export default function RoutineStep({ routine }) {
                 className="font-mono-dm text-[10px] tracking-widest uppercase"
                 style={{ color: 'var(--muted)' }}
               >
-                Desmarcar
+                {ui.unmark}
               </button>
             </div>
           )}
@@ -624,19 +626,19 @@ export default function RoutineStep({ routine }) {
                 className="py-4 font-montserrat text-sm font-medium tracking-wider uppercase transition-all duration-200 active:scale-95 border"
                 style={{ flex: '0 0 30%', background: 'transparent', color: 'var(--muted)', borderColor: 'var(--border)' }}
               >
-                Anterior
+                {ui.prevStep}
               </button>
               <button
                 onClick={handleSiguiente}
                 className="py-4 font-montserrat text-sm font-semibold tracking-wider uppercase transition-all duration-200 active:scale-95"
                 style={{ flex: '1', background: 'var(--green)', color: '#F1F0EB' }}
               >
-                {isLast ? 'Completar' : 'Siguiente'}
+                {isLast ? ui.completeStep : ui.nextStep}
               </button>
             </div>
           ) : (
             <BtnPrimary onClick={handleSiguiente}>
-              {isLast ? 'Completar rutina' : 'Siguiente'}
+              {isLast ? ui.completeRoutine : ui.nextStep}
             </BtnPrimary>
           )}
 
