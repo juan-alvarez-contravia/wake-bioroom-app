@@ -1357,7 +1357,7 @@ export const content = {
           tag:         'Wake BioHotel Restaurant',
           description: 'SILO is the Wake BioHotel restaurant, with a gastronomic proposal focused on nutrition and longevity. The menu is designed to complement your wellness experience.',
           note:    'Remember to have dinner 2 hours before going to sleep.',
-          video:   'https://res.cloudinary.com/dn0t6obmx/video/upload/q_auto/f_auto/v1779226016/SIlo_Noche_uhh7n7.mp4',
+          video:   'https://res.cloudinary.com/dn0t6obmx/video/upload/v1782836452/video-output-9806364E-2253-452C-BBFA-4C5A6D5CFE91-1_1_yf0oxj.mov',
           pending: null,
           appLink: { label: 'View menu and reserve', scheme: 'https://linktr.ee/silo.cocina' },
         },
