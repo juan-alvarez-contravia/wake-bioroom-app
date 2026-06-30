@@ -10,7 +10,7 @@ import stretchImg from '../assets/Stretch-adn-Tone.webp'
 import baneraImg from '../assets/Banera.webp'
 import amQrImg from '../assets/AMRoutineMusic.png'
 import pmQrImg from '../assets/PMRoutineMusic.png'
-import agendaImg from '../assets/AgendaWB.webp'
+import agendaImg from '../assets/AgendaJun.png'
 
 const QR_IMAGES = {
   'am-1': amQrImg,
